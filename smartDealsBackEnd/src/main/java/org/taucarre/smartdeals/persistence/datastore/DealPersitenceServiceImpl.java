@@ -2,6 +2,7 @@ package org.taucarre.smartdeals.persistence.datastore;
 
 import static org.taucarre.smartdeals.persistence.datastore.ObjectifyDAO.oby;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.taucarre.smartdeals.entite.deal.Deal;
@@ -16,7 +17,6 @@ public class DealPersitenceServiceImpl implements DealPersitenceService {
 	private Logger logger = Logger.getLogger(TAG);
 	
 	public Deal fetchDealById(Long id) {
-		// TODO Auto-generated method stub
 		String webSafeString = Key.create(null, Entity.class,id.longValue()).toString();
 		Key<Deal> key = Key.create(webSafeString);
 		return oby().load().key(key).now();
@@ -43,7 +43,8 @@ public class DealPersitenceServiceImpl implements DealPersitenceService {
 	}
 
 	public void modifierDeal(Deal deal) {
-		// TODO Auto-generated method stub
+		oby().save().entity(deal).now();
+		logger.info("Modification deal " + deal.getNomDeal()); 
 		
 	}
 
@@ -51,6 +52,12 @@ public class DealPersitenceServiceImpl implements DealPersitenceService {
 		oby().delete().entity(deal).now();
 		logger.info("Suppression deal " + deal.getNomDeal());
 		
+	}
+
+	@Override
+	public List<Deal> getListDeals() {
+		List<Deal> deals = oby().load().type(Deal.class).list();
+		return deals;
 	}
 
 }
