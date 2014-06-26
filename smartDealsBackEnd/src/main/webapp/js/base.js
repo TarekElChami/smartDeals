@@ -96,25 +96,60 @@ deals.saveDeal = function(name, marchand, desc, prix) {
 	        }
 	      });
 	};
+	
+deals.deleteDeal = function(name){
+	gapi.client.smartdeals.deleteDeal({'nom' : name}).execute(
+	function(resp){
+		if(!resp.code){
+			deals.print("succes");
+		}else{
+			windows.alert(resp.message);
+		}
+	}		
+	);
+};
 
-	/**
-	 * Enables the button callbacks in the UI.
-	 */
-	deals.enableButtons = function() {
-	  document.getElementById('getDeal').onclick = function() {
-	    deals.getDeal(
-	    		document.getElementById('name').value);
-	  }
+deals.listDeals = function() {
+  gapi.client.smartdeals.listDeals().execute(
+      function(resp) {
+        if (!resp.code) {
+          resp.items = resp.items || [];
+          for (var i = 0; i < resp.items.length; i++) {
+            deals.print(resp.items[i]);
+          }
+        }
+      });
+};
 
-	  document.getElementById('insertDeal').onclick = function() {
+/**
+  * Enables the button callbacks in the UI.
+  */
+deals.enableButtons = function() {
+	document.getElementById('getDeal').onclick = function() {
+		deals.getDeal(
+	    document.getElementById('name').value);
+	 }
+
+	 document.getElementById('insertDeal').onclick = function() {
 	    deals.saveDeal(
-	        document.getElementById('nomDeal').value,
-	        document.getElementById('desciprtionDeal').value,
-	        document.getElementById('nomMarchand').value,
-	        document.getElementById('prix').value);
+	       document.getElementById('nomDeal').value,
+	       document.getElementById('desciprtionDeal').value,
+	       document.getElementById('nomMarchand').value,
+	       document.getElementById('prix').value);
+	 }
+	 
+	 document.getElementById('listDeals').onclick = function(){
+		    deals.listDeals();
+		  }
+	  
+	 document.getElementById('deleteDeal').onclick = function(){
+	    deals.deleteDeal(
+		 document.getElementById('nameDealToDelete').value
+			  );
 	  }
+	  
 
-	};
+};
 
 	/**
 	 * Initializes the application.

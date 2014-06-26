@@ -73,13 +73,14 @@
     
     <form action="javascript:void(0);">
         <h2>Delete Deal</h2>
-        <div><input id="deleteDeal" type="submit" class="btn btn-small" disabled value="Submit"></div>
+          <div><span style="width: 90px; display: inline-block;">Deal Name: </span><input id="nameDealToDelete" /></div>
+          <div><input id="deleteDeal" type="submit" class="btn btn-small" value="Submit"></div>
     </form>
 
     <script type="text/javascript">
         function init() {
-          // deals.init('http://localhost:8080/_ah/api');
-           deals.init('https://smart-deals.appspot.com/_ah/api');
+         // deals.init('http://localhost:8080/_ah/api');
+         deals.init('https://smart-deals.appspot.com/_ah/api');
         }
     </script>
     <script src="https://apis.google.com/js/client.js?onload=init"></script>
