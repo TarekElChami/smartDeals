@@ -38,6 +38,5 @@
     <string name="ajouterDeal">Ajouter Deal</string>
     <string name="focusDeal">Details Deal</string>
     <string name="listeDeal">Afficher liste deals</string>
-    <string name="title_activity_focus_on_deal">FocusOnDealActivity</string>
 
 </resources>

@@ -46,7 +46,7 @@
 
         <activity
             android:name="com.taucarre.smartdeals.smartdealsapp.FocusOnDealActivity"
-            android:label="@string/title_activity_focus_on_deal" >
+            android:label="@string/focusDeal" >
             <intent-filter>
                 <action android:name="SMARTDEALS_FOCUS_DEAL_ACTIVITE" />
                 <category android:name="android.intent.category.DEFAULT" />

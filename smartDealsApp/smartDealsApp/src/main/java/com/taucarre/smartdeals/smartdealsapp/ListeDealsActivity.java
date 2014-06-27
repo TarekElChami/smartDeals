@@ -1,11 +1,14 @@
 package com.taucarre.smartdeals.smartdealsapp;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appspot.smart_deals.smartdeals.Smartdeals;
@@ -85,6 +88,30 @@ public class ListeDealsActivity extends ListActivity {
             }
             return null;
         }
+
+    }
+
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+
+        TextView titreDeal = (TextView) v.findViewById(R.id.nomDeal);
+        TextView marchandDeal = (TextView)  v.findViewById(R.id.emplacementDeal);
+        TextView descriptionDeal = (TextView) v.findViewById(R.id.textDescDeal);
+
+        String nomDeal = titreDeal.getText().toString();
+        String marchand = marchandDeal.getText().toString();
+        String description = descriptionDeal.getText().toString();
+
+        Intent intent =  new Intent();
+        intent.putExtra("nom", nomDeal);
+        intent.putExtra("marchand", marchand);
+        intent.putExtra("description", description);
+
+        intent.setClass(this, FocusOnDealActivity.class);
+        startActivity(intent);
 
     }
 

@@ -1,9 +1,11 @@
 package com.taucarre.smartdeals.smartdealsapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class FocusOnDealActivity extends ActionBarActivity {
@@ -12,6 +14,21 @@ public class FocusOnDealActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_focus_on_deal);
+
+        Intent intent = getIntent();
+        String nomDeal = intent.getStringExtra("nom");
+        String marchandDeal = intent.getStringExtra("marchand");
+        String descriptionDeal = intent.getStringExtra("description");
+
+        TextView nomZoom = (TextView) findViewById(R.id.nomDealZoom);
+        nomZoom.setText(nomDeal);
+
+        TextView descZoom = (TextView) findViewById(R.id.textDescDealZoom);
+        descZoom.setText(descriptionDeal);
+
+        TextView marchandZoom = (TextView) findViewById(R.id.marchandDealZoom);
+        marchandZoom.setText(marchandDeal);
+
     }
 
 
