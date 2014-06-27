@@ -6,4 +6,23 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
+
+    <item android:id="@+id/listeDeal"
+        android:title="@string/listeDeal"
+        android:orderInCategory="200"
+        app:showAsAction="never"
+        android:icon="@android:drawable/ic_menu_add"/>
+
+    <item android:id="@+id/ajouterDeal"
+        android:title="@string/ajouterDeal"
+        android:orderInCategory="201"
+        app:showAsAction="never"
+        android:icon="@android:drawable/ic_menu_add"/>
+
+    <item android:id="@+id/focusDeal"
+        android:title="@string/focusDeal"
+        android:orderInCategory="201"
+        app:showAsAction="never"
+        android:icon="@android:drawable/ic_menu_add"/>
+
 </menu>

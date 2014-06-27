@@ -1,11 +1,13 @@
 package com.taucarre.smartdeals.smartdealsapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -224,6 +226,47 @@ public class MainActivity extends ActionBarActivity {
         };
 
         sendDeals.execute((Void)null);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        Intent intent = new Intent();
+        String action;
+        switch (id){
+            case R.id.ajouterDeal:
+                action = "SMARTDEALS_PROPOSITION_DEAL_ACTIVITE";
+                intent.setAction(action);
+                startActivity(intent);
+                break;
+            case R.id.focusDeal:
+                action = "SMARTDEALS_FOCUS_DEAL_ACTIVITE";
+                intent.setAction(action);
+                startActivity(intent);
+                break;
+            case R.id.listeDeal:
+                action = "SMARTDEALS_LISTE_DEAL_ACTIVITE";
+                intent.setAction(action);
+                startActivity(intent);
+                break;
+            case R.id.action_settings :
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

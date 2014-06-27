@@ -19,8 +19,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:+'
-    compile 'com.android.support:support-v4:19.0.+'
 
     // BEGIN Google APIs
 
@@ -64,4 +62,7 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile files('libs/smartdeals-v1-1.18.0-rc-SNAPSHOT.jar')
+    compile 'com.android.support:appcompat-v7:19.+'
+    compile 'com.android.support:support-v4:19.0.+'
+    compile 'com.android.support:appcompat-v7:19.+'
 }
