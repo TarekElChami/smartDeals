@@ -10,28 +10,16 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="@string/titreDeal"
+        android:text="@string/nomDeal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
+        android:id="@+id/nomDealEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
         android:hint="@string/titreDealHint"/>
-
-
-    <TextView
-        android:text="@string/lieuDeal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="@string/lieuDealHint"/>
-
 
     <TextView
         android:text="@string/marchandDeal"
@@ -39,6 +27,7 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:id="@+id/nomMarchandEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
@@ -69,11 +58,11 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:id="@+id/prixDealEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
+        android:inputType="numberDecimal"
         android:hint="@string/prixDealHint"/>
-
 
     <TextView
         android:text="@string/categorieDeal"
@@ -92,11 +81,18 @@
         android:layout_height="wrap_content" />
 
     <EditText
+        android:id="@+id/descDealEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/descritionDealText"
         android:hint="@string/decrireLeDeal"
         android:scrollbars="vertical"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:onClick="onClickInsertDeal"
+        android:text="Enregistrer Deal"/>
 
 
 </LinearLayout>
