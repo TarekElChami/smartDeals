@@ -1,0 +1,12 @@
+
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@android:id/list"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:paddingLeft="@dimen/activity_horizontal_margin"
+android:paddingRight="@dimen/activity_horizontal_margin"
+android:paddingTop="@dimen/activity_vertical_margin"
+android:paddingBottom="@dimen/activity_vertical_margin"
+android:minHeight="100dp"
+    />
+<!-- From: file:/Users/tarekelchami/AndroidStudioProjects/SmartDealsApp/smartDealsApp/src/main/res/layout/activity_liste_deals.xml -->
