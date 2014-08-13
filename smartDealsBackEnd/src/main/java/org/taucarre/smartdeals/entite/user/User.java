@@ -1,27 +1,53 @@
 package org.taucarre.smartdeals.entite.user;
 
+import java.io.Serializable;
+
+import javax.annotation.Generated;
+import javax.jdo.annotations.Column;
+import javax.jdo.annotations.Embedded;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Persistent;
+
+import com.google.api.server.spi.config.Nullable;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 @Entity
-public class User {
+public class User implements Serializable {
+	
+	
 
-	@Id
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7095668685587827749L;
+
+	@Id()
 	private Long idUser;
-	private String name;
+	
+	@Index
 	private String login;
+	
+	private String name;
+	
 	private String password;
+	
 	private String mail;
+	
+
 	private Byte[] avatar;
+	
 	private Integer notoriorite;
+	
 	private boolean banned;
+	
 	private Role roleUtilisateur;
 	
 	
 	public User(){
 		
 	}
-
 
 	public Long getIdUser() {
 		return idUser;

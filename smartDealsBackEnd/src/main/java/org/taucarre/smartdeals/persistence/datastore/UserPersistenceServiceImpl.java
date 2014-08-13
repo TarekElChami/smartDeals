@@ -17,20 +17,23 @@ public class UserPersistenceServiceImpl implements UserPersistenceService {
 	private Logger logger = Logger.getLogger(TAG);
 	
 	@Override
-	public void ajouterUser(User user) {
+	public User ajouterUser(User user) {
 		Key<User> result = oby().save().entity(user).now();	
 		if(result != null){
 			logger.info("Sauvegarde user " + user.getLogin() + " : " +  result.toString());
+			return getUserbyLogin(user.getLogin());
 		}else{
 			logger.info("Echec Sauvegarde user " + user.getLogin());
+			return null;
 		}
 		
 	}
 
 	@Override
-	public void modifierUser(User user) {
+	public User modifierUser(User user) {
 		oby().save().entity(user).now();	
 		logger.info("Mofication user " + user.getLogin());
+		return getUserbyLogin(user.getLogin());
 		
 	}
 
