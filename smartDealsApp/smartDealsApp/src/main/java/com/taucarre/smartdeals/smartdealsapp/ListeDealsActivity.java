@@ -61,6 +61,11 @@ public class ListeDealsActivity extends ListActivity {
                 intent.setAction(action);
                 startActivity(intent);
                 break;
+            case R.id.configurerProfilMenu :
+                action ="SMARTDEALS_CONFIGURER_PROFIL_ACTIVITE";
+                intent.setAction(action);
+                startActivity(intent);
+                break;
             case R.id.test:
                 action = "SMARTDEALS_TEST";
                 intent.setAction(action);

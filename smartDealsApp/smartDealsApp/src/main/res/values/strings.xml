@@ -18,6 +18,23 @@
         <item>High-Tech</item>
     </string-array>
 
+    <string-array name="categorieDeal">
+        <item>HIGH_TECH</item>
+        <item>AUDIOVISUEL</item>
+        <item>LOISIR</item>
+        <item>MODE</item>
+        <item>MAISON</item>
+        <item>SERVICES</item>
+        <item>EPICERIE</item>
+    </string-array>
+
+    <string-array name="typeDeal">
+        <item>Bon Plan</item>
+        <item>Bons Reduction</item>
+        <item>Vente Flash</item>
+        <item>Offre Gratuite</item>
+    </string-array>
+
     <string name="hello_world">Hello world!</string>
     <string name="nomDeal">Nom Deal</string>
     <string name="emplacementDeal">Lieu Deal</string>
@@ -40,5 +57,9 @@
     <string name="listeDeal">Afficher liste deals</string>
     <string name="Interfacetest">Interface de test</string>
 
+<!-- Configurer profil Strings  /-->
+    <string name="configurerProfil">Configurer Profil</string>
+    <string name="userAvatar">User Avatar</string>
+    <string name="configurerProfilMenu">Configurer Profil</string>
 
 </resources>

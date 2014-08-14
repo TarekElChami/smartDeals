@@ -1,0 +1,89 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.taucarre.smartdeals.smartdealsapp.ConfigurerProfilActivity">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userAvatar"
+        android:src="@drawable/andrew"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/userAvatar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="User Name"
+        android:ems="10"
+        android:id="@+id/userName"
+        android:layout_alignTop="@+id/userAvatar"
+        android:layout_toRightOf="@+id/userAvatar" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="User Mail"
+        android:ems="10"
+        android:id="@+id/userMail"
+        android:layout_below="@+id/userName"
+        android:layout_toRightOf="@+id/userAvatar" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="User Login"
+        android:ems="10"
+        android:id="@+id/userLogin"
+        android:layout_above="@+id/userPassword"
+        android:layout_alignLeft="@+id/userPassword"
+        android:layout_alignStart="@+id/userPassword" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="User Password"
+        android:ems="10"
+        android:id="@+id/userPassword"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/userAvatar" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enregistrer"
+        android:id="@+id/saveUser"
+        android:layout_below="@+id/userPassword"
+        android:layout_alignRight="@+id/userPassword"
+        android:layout_alignEnd="@+id/userPassword"
+        android:layout_marginTop="54dp"
+        android:onClick="onClickInsertUser"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Avatar"
+        android:id="@+id/avatarButton"
+        android:layout_toLeftOf="@+id/userLogin"
+        android:layout_below="@+id/userAvatar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="onClickChooseAvatar"
+        />
+
+
+</RelativeLayout>

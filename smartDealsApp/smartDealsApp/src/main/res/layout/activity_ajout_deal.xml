@@ -1,98 +1,127 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.taucarre.smartdeals.smartdealsapp.AjoutDealActivity"
-    android:orientation="vertical">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context="com.taucarre.smartdeals.smartdealsapp.AjoutDealActivity">
 
-    <TextView
-        android:text="@string/nomDeal"
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/ic_transaction128"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Charger Image"
+        android:id="@+id/button"
+        android:layout_below="@+id/imageView"
+        android:layout_alignRight="@+id/imageView"
+        android:layout_alignEnd="@+id/imageView"
+        android:onClick="onClickChooseDealImage"/>
 
     <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/nomDealEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="@string/titreDealHint"/>
-
-    <TextView
-        android:text="@string/marchandDeal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:hint="Nom Deal"
+        android:layout_marginLeft="64dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_marginTop="32dp" />
 
     <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/nomMarchandEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="@string/marchandDealHint"/>
+        android:layout_below="@+id/nomDealEditText"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignLeft="@+id/enLigneRadioButton"
+        android:layout_alignStart="@+id/enLigneRadioButton"
+        android:hint="Nom Marchand" />
 
-    <TableRow
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        >
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/enLigne"
-            android:id="@+id/enLigneRadioButton" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/enMagasin"
-            android:id="@+id/EnMagasinRadioButton"
-            android:layout_gravity="right" />
-
-    </TableRow>
-
-    <TextView
-        android:text="@string/prixDeal"
+    <RadioButton
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Sur Internet"
+        android:id="@+id/enLigneRadioButton"
+        android:checked="false"
+        android:layout_alignBottom="@+id/button"
+        android:layout_alignLeft="@+id/nomDealEditText"
+        android:layout_alignStart="@+id/nomDealEditText" />
 
     <EditText
-        android:id="@+id/prixDealEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:hint="@string/prixDealHint"/>
-
-    <TextView
-        android:text="@string/categorieDeal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/prixDealEditText"
+        android:hint="Prix"
+        android:layout_below="@+id/button"
+        android:layout_alignLeft="@+id/enLigneRadioButton"
+        android:layout_alignStart="@+id/enLigneRadioButton"
+        android:layout_alignRight="@+id/nomMarchandEditText"
+        android:layout_alignEnd="@+id/nomMarchandEditText" />
+
 
     <Spinner
-        android:id="@+id/categorieDealListe"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content">
-    </Spinner>
-
-    <TextView
-        android:text="@string/descriptionDeal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/categorieDealListe"
+        android:layout_below="@+id/prixDealEditText"
+        android:layout_alignLeft="@+id/adresseDealEditText"
+        android:layout_alignStart="@+id/adresseDealEditText"
+        android:layout_toLeftOf="@+id/prixDealEditText" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/typeDealSpinner"
+        android:layout_alignTop="@+id/categorieDealListe"
+        android:layout_toRightOf="@+id/categorieDealListe" />
 
     <EditText
-        android:id="@+id/descDealEditText"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/decrireLeDeal"
-        android:scrollbars="vertical"/>
+        android:ems="10"
+        android:id="@+id/adresseDealEditText"
+        android:hint="URL site web ou Adresse postale"
+        android:layout_below="@+id/categorieDealListe"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/prixDealEditText"
+        android:layout_alignEnd="@+id/prixDealEditText" />
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/descDealEditText"
+        android:hint="Description"
+        android:layout_below="@+id/adresseDealEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/adresseDealEditText"
+        android:layout_alignEnd="@+id/adresseDealEditText" />
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:text="Enregistrer"
+        android:id="@+id/button2"
+        android:layout_marginBottom="34dp"
         android:onClick="onClickInsertDeal"
-        android:text="Enregistrer Deal"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/adresseDealEditText"
+        android:layout_alignEnd="@+id/adresseDealEditText" />
 
 
-</LinearLayout>
+</RelativeLayout>

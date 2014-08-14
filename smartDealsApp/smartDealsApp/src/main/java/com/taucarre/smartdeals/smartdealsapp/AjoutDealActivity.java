@@ -28,6 +28,7 @@ public class AjoutDealActivity extends Activity implements AdapterView.OnItemSel
     private Spinner listeCategorie;
     private int typeOnUi = 0;
     private int typeInitialise = 0;
+    private Spinner listeTypeDeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,9 @@ public class AjoutDealActivity extends Activity implements AdapterView.OnItemSel
 
         listeCategorie = (Spinner) findViewById(R.id.categorieDealListe);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.typeDeals,
+        listeTypeDeal = (Spinner) findViewById(R.id.typeDealSpinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categorieDeal,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -44,6 +47,14 @@ public class AjoutDealActivity extends Activity implements AdapterView.OnItemSel
         listeCategorie.setOnItemSelectedListener(this);
 
         typeOnUi = 1;
+
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.typeDeal,
+                android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        listeTypeDeal.setAdapter(adapter1);
+        listeTypeDeal.setOnItemSelectedListener(this);
+
     }
 
 

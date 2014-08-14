@@ -13,10 +13,16 @@
         app:showAsAction="never"
         android:icon="@android:drawable/ic_menu_add"/>
 
+    <item android:id="@+id/configurerProfilMenu"
+        android:title="@string/configurerProfilMenu"
+        android:orderInCategory="201"
+        app:showAsAction="never"
+        android:icon="@drawable/user_id"/>
+
 
     <item android:id="@+id/test"
         android:title="@string/Interfacetest"
-        android:orderInCategory="201"
+        android:orderInCategory="202"
         app:showAsAction="never"
         android:icon="@android:drawable/ic_menu_add"/>
 </menu>

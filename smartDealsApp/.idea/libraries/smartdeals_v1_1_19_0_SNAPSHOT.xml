@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="smartdeals-v1-1.19.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/smartDealsApp/libs/smartdeals-v1-1.19.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
