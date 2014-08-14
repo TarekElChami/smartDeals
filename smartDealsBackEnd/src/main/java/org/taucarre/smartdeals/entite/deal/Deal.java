@@ -3,6 +3,8 @@ package org.taucarre.smartdeals.entite.deal;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.jdo.annotations.Embedded;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -26,12 +28,13 @@ public class Deal implements Serializable {
 	private Date dateDeCreationDeal;
 	private Date dateExpirationDeal;
 	private Boolean expire;
-	private Byte[] imageDeal;
+	private String imageDeal;
 //	private List<Commentaire> listeCommentaires;
 //	private Evaluation evaluation;
 	
 	private String categorieDeal;
-	private String typeDeal;
+	
+	private TypeDeal typeDeal;
 	
 	private Integer prix;
 	
@@ -65,13 +68,16 @@ public class Deal implements Serializable {
 	public void setExpire(Boolean expire) {
 		this.expire = expire;
 	}
-	public Byte[] getImageDeal() {
+	
+	public String getImageDeal() {
 		return imageDeal;
 	}
-	public void setImageDeal(Byte[] imageDeal) {
+
+	public void setImageDeal(String imageDeal) {
 		this.imageDeal = imageDeal;
 	}
-//	public List<Commentaire> getListeCommentaires() {
+
+	//	public List<Commentaire> getListeCommentaires() {
 //		return listeCommentaires;
 //	}
 //	public void setListeCommentaires(List<Commentaire> listeCommentaires) {
@@ -123,13 +129,15 @@ public class Deal implements Serializable {
 		this.categorieDeal = categorieDeal;
 	}
 
-	public String getTypeDeal() {
+	public TypeDeal getTypeDeal() {
 		return typeDeal;
 	}
 
-	public void setTypeDeal(String typeDeal) {
+	public void setTypeDeal(TypeDeal typeDeal) {
 		this.typeDeal = typeDeal;
 	}
+
+	
 
 	
 

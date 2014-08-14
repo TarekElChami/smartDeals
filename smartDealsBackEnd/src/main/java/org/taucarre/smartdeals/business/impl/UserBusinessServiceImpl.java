@@ -25,10 +25,15 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 
 	@Override
 	public User ajouterUser(User user) {
-		UUID id = UUID.randomUUID();
-		user.setIdUser(id.getMostSignificantBits());
-		return userPersistenceService.ajouterUser(user);
-		
+		User userExistant = this.getUserByLogin(user.getLogin());
+		if(userExistant != null){
+			user.setIdUser(userExistant.getIdUser());
+			return mettreAjourUser(user);
+		}else{
+			UUID id = UUID.randomUUID();
+			user.setIdUser(id.getMostSignificantBits());
+			return userPersistenceService.ajouterUser(user);
+		}
 	}
 
 	@Override

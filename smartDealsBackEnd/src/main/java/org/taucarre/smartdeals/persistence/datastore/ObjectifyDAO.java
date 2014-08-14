@@ -1,6 +1,7 @@
 package org.taucarre.smartdeals.persistence.datastore;
 
 import org.taucarre.smartdeals.entite.deal.Deal;
+import org.taucarre.smartdeals.entite.deal.TypeDeal;
 import org.taucarre.smartdeals.entite.user.User;
 
 import com.googlecode.objectify.Objectify;

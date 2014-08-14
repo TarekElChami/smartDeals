@@ -9,6 +9,7 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Persistent;
 
 import com.google.api.server.spi.config.Nullable;
+import com.google.appengine.api.datastore.Blob;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -35,8 +36,7 @@ public class User implements Serializable {
 	
 	private String mail;
 	
-
-	private Byte[] avatar;
+	private String avatar;
 	
 	private Integer notoriorite;
 	
@@ -99,15 +99,13 @@ public class User implements Serializable {
 	}
 
 
-	public Byte[] getAvatar() {
+	public String getAvatar() {
 		return avatar;
 	}
 
-
-	public void setAvatar(Byte[] avatar) {
+	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-
 
 	public Integer getNotoriorite() {
 		return notoriorite;
