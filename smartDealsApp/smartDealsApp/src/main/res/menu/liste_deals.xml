@@ -18,11 +18,16 @@
         android:orderInCategory="201"
         app:showAsAction="never"
         android:icon="@drawable/user_id"/>
-
+    <item
+        android:id="@+id/updateMenu"
+        android:orderInCategory="202"
+        android:title="update"
+        app:showAsAction ="never"
+        android:icon="@android:drawable/ic_media_play"/>
 
     <item android:id="@+id/test"
         android:title="@string/Interfacetest"
-        android:orderInCategory="202"
+        android:orderInCategory="203"
         app:showAsAction="never"
         android:icon="@android:drawable/ic_menu_add"/>
 </menu>

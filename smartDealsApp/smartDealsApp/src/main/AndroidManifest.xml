@@ -77,12 +77,21 @@
         <service
             android:name="com.taucarre.smartdeals.smartdealsapp.services.UpdaterService"
             android:exported="false" >
+            <intent-filter>
+                <action android:name="smartdeals.action.update" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="smartdeals.action.synchronize" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </service>
 
         <activity
             android:name="com.taucarre.smartdeals.smartdealsapp.activities.ParametrerApplicationActivity"
             android:label="@string/title_activity_parametrer_application" >
         </activity>
+
     </application>
 
 </manifest>

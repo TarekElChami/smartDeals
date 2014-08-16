@@ -3,6 +3,7 @@ package com.taucarre.smartdeals.smartdealsapp.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.appspot.smart_deals.smartdeals.Smartdeals;
 import com.appspot.smart_deals.smartdeals.model.Deal;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class UpdaterService extends IntentService {
 
-    private static final String ACTION_UPDATE = "com.taucarre.smartdeals.smartdealsapp.services.action.update";
+    private static final String ACTION_UPDATE = "smartdeals.action.update";
     private static final String ACTION_SYNCHRONIZE = "com.taucarre.smartdeals.smartdealsapp.services.action.synchronize";
 
     // TODO: Rename parameters
@@ -83,6 +84,7 @@ public class UpdaterService extends IntentService {
     private void handleActionUpdate(String param1, String param2) {
         Smartdeals apiServiceHandle = AppConstants.getApiServiceHandle();
 
+        /*
         try {
             Smartdeals.ListDeals listeDealCommand = apiServiceHandle.listDeals();
             DealCollection dealCollection = listeDealCommand.execute();
@@ -93,6 +95,8 @@ public class UpdaterService extends IntentService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
+        Toast.makeText(getApplicationContext(),"update service started", Toast.LENGTH_LONG).show();
 
     }
 

@@ -14,9 +14,11 @@ import android.widget.Toast;
 import com.appspot.smart_deals.smartdeals.Smartdeals;
 import com.appspot.smart_deals.smartdeals.model.Deal;
 import com.appspot.smart_deals.smartdeals.model.DealCollection;
+import com.taucarre.smartdeals.smartdealsapp.application.SmartDealsApplication;
 import com.taucarre.smartdeals.smartdealsapp.modele.ListeDeal;
 import com.taucarre.smartdeals.smartdealsapp.R;
 import com.taucarre.smartdeals.smartdealsapp.application.AppConstants;
+import com.taucarre.smartdeals.smartdealsapp.services.UpdaterService;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,11 +29,16 @@ public class ListeDealsActivity extends ListActivity {
     private static final String TAG = ListeDealsActivity.class.getSimpleName();
     ListView liste;
     ListeDeal listeDeal;
+    SmartDealsApplication smartDealsApplication;
+    int tailleListeAffiche = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_deals);
+
+        smartDealsApplication = (SmartDealsApplication) getApplication();
+
 
         liste = (ListView) findViewById(android.R.id.list);
         liste.requestFocus();
@@ -74,8 +81,14 @@ public class ListeDealsActivity extends ListActivity {
                 startActivity(intent);
                 break;
             case R.id.action_settings :
+                startActivity(new Intent(this, ParametrerApplicationActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                 break;
-
+            case R.id.updateMenu :
+                action = "smartdeals.action.update";
+                intent.setAction(action);
+                startService(intent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

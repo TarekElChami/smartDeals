@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference android:title= "@string/tailleListe" android:numeric="integer" android:key="taille_liste"/>
+    <EditTextPreference android:title= "@string/frequenceUpdate" android:numeric="integer" android:key="frequence_update"/>
 
 </PreferenceScreen>
