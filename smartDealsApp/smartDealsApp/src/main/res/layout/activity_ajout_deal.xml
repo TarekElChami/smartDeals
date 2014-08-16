@@ -3,13 +3,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context="com.taucarre.smartdeals.smartdealsapp.AjoutDealActivity">
+    tools:context="com.taucarre.smartdeals.smartdealsapp.activities.AjoutDealActivity">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
+        android:id="@+id/dealPhoto"
         android:src="@drawable/ic_transaction128"
+        android:maxHeight="128dp"
+        android:maxWidth="128dp"
+        android:minHeight="128dp"
+        android:minWidth="128dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -20,40 +24,30 @@
         android:layout_height="wrap_content"
         android:text="Charger Image"
         android:id="@+id/button"
-        android:layout_below="@+id/imageView"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView"
-        android:onClick="onClickChooseDealImage"/>
+        android:onClick="onClickChooseDealImage"
+        android:layout_below="@+id/dealPhoto"
+        android:layout_alignRight="@+id/dealPhoto"
+        android:layout_alignEnd="@+id/dealPhoto" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/nomDealEditText"
         android:hint="Nom Deal"
-        android:layout_marginLeft="64dp"
+        android:layout_marginTop="35dp"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_marginTop="32dp" />
+        android:layout_toRightOf="@+id/dealPhoto"
+        android:layout_marginLeft="44dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/nomMarchandEditText"
+        android:hint="Nom Marchand"
         android:layout_below="@+id/nomDealEditText"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_alignLeft="@+id/enLigneRadioButton"
-        android:layout_alignStart="@+id/enLigneRadioButton"
-        android:hint="Nom Marchand" />
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sur Internet"
-        android:id="@+id/enLigneRadioButton"
-        android:checked="false"
-        android:layout_alignBottom="@+id/button"
         android:layout_alignLeft="@+id/nomDealEditText"
         android:layout_alignStart="@+id/nomDealEditText" />
+
 
     <EditText
         android:layout_width="wrap_content"
@@ -62,28 +56,37 @@
         android:ems="10"
         android:id="@+id/prixDealEditText"
         android:hint="Prix"
-        android:layout_below="@+id/button"
-        android:layout_alignLeft="@+id/enLigneRadioButton"
-        android:layout_alignStart="@+id/enLigneRadioButton"
+        android:layout_below="@+id/nomMarchandEditText"
+        android:layout_alignLeft="@+id/nomMarchandEditText"
+        android:layout_alignStart="@+id/nomMarchandEditText"
         android:layout_alignRight="@+id/nomMarchandEditText"
         android:layout_alignEnd="@+id/nomMarchandEditText" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sur Internet"
+        android:id="@+id/enLigneRadioButton"
+        android:checked="false"
+        android:layout_below="@+id/prixDealEditText"
+        android:layout_alignLeft="@+id/prixDealEditText"
+        android:layout_alignStart="@+id/prixDealEditText" />
 
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/categorieDealListe"
-        android:layout_below="@+id/prixDealEditText"
-        android:layout_alignLeft="@+id/adresseDealEditText"
-        android:layout_alignStart="@+id/adresseDealEditText"
-        android:layout_toLeftOf="@+id/prixDealEditText" />
+        android:layout_alignTop="@+id/typeDealSpinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/typeDealSpinner"
-        android:layout_alignTop="@+id/categorieDealListe"
-        android:layout_toRightOf="@+id/categorieDealListe" />
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/adresseDealEditText" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -91,11 +94,9 @@
         android:ems="10"
         android:id="@+id/adresseDealEditText"
         android:hint="URL site web ou Adresse postale"
-        android:layout_below="@+id/categorieDealListe"
+        android:layout_below="@+id/typeDealSpinner"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/prixDealEditText"
-        android:layout_alignEnd="@+id/prixDealEditText" />
+        android:layout_alignParentStart="true" />
 
 
     <EditText
@@ -105,11 +106,12 @@
         android:ems="10"
         android:id="@+id/descDealEditText"
         android:hint="Description"
-        android:layout_below="@+id/adresseDealEditText"
+        android:layout_above="@+id/button2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/adresseDealEditText"
-        android:layout_alignEnd="@+id/adresseDealEditText" />
+        android:layout_marginBottom="26dp"
+        android:layout_alignRight="@+id/prixDealEditText"
+        android:layout_alignEnd="@+id/prixDealEditText" />
 
 
     <Button
@@ -117,11 +119,12 @@
         android:layout_height="wrap_content"
         android:text="Enregistrer"
         android:id="@+id/button2"
-        android:layout_marginBottom="34dp"
         android:onClick="onClickInsertDeal"
+        android:layout_marginBottom="35dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/adresseDealEditText"
-        android:layout_alignEnd="@+id/adresseDealEditText" />
+        android:layout_alignRight="@+id/nomDealEditText"
+        android:layout_alignEnd="@+id/nomDealEditText" />
+
 
 
 </RelativeLayout>

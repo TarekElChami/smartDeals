@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name="com.taucarre.smartdeals.smartdealsapp.Application"
+        android:name="com.taucarre.smartdeals.smartdealsapp.application.SmartDealsApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_transaction48"
         android:label="@string/app_name"
@@ -25,7 +25,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="com.taucarre.smartdeals.smartdealsapp.ListeDealsActivity"
+            android:name="com.taucarre.smartdeals.smartdealsapp.activities.ListeDealsActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.taucarre.smartdeals.smartdealsapp.MainActivity"
+            android:name="com.taucarre.smartdeals.smartdealsapp.activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="SMARTDEALS_TEST" />
@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.taucarre.smartdeals.smartdealsapp.AjoutDealActivity"
+            android:name="com.taucarre.smartdeals.smartdealsapp.activities.AjoutDealActivity"
             android:label="@string/title_activity_ajout_deal" >
             <intent-filter>
                 <action android:name="SMARTDEALS_PROPOSITION_DEAL_ACTIVITE" />
@@ -52,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.taucarre.smartdeals.smartdealsapp.FocusOnDealActivity"
+            android:name="com.taucarre.smartdeals.smartdealsapp.activities.FocusOnDealActivity"
             android:label="@string/focusDeal" >
             <intent-filter>
                 <action android:name="SMARTDEALS_FOCUS_DEAL_ACTIVITE" />
@@ -61,7 +61,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.taucarre.smartdeals.smartdealsapp.ConfigurerProfilActivity"
+            android:name="com.taucarre.smartdeals.smartdealsapp.activities.ConfigurerProfilActivity"
             android:label="@string/configurerProfil" >
             <intent-filter>
                 <action android:name="SMARTDEALS_CONFIGURER_PROFIL_ACTIVITE" />
@@ -74,6 +74,15 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAJdp6Ky5p-dHRDwMcowv5PY66fui3WhPc" />
 
+        <service
+            android:name="com.taucarre.smartdeals.smartdealsapp.services.UpdaterService"
+            android:exported="false" >
+        </service>
+
+        <activity
+            android:name="com.taucarre.smartdeals.smartdealsapp.activities.ParametrerApplicationActivity"
+            android:label="@string/title_activity_parametrer_application" >
+        </activity>
     </application>
 
 </manifest>

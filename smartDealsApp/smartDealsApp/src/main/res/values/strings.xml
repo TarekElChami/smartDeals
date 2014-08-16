@@ -17,7 +17,6 @@
         <item>Culture</item>
         <item>High-Tech</item>
     </string-array>
-
     <string-array name="categorieDeal">
         <item>HIGH_TECH</item>
         <item>AUDIOVISUEL</item>
@@ -27,7 +26,6 @@
         <item>SERVICES</item>
         <item>EPICERIE</item>
     </string-array>
-
     <string-array name="typeDeal">
         <item>Bon Plan</item>
         <item>Bons Reduction</item>
@@ -57,9 +55,10 @@
     <string name="listeDeal">Afficher liste deals</string>
     <string name="Interfacetest">Interface de test</string>
 
-<!-- Configurer profil Strings  /-->
+    <!-- Configurer profil Strings  / -->
     <string name="configurerProfil">Configurer Profil</string>
     <string name="userAvatar">User Avatar</string>
     <string name="configurerProfilMenu">Configurer Profil</string>
+    <string name="title_activity_parametrer_application">ParametrerApplicationActivity</string>
 
 </resources>
