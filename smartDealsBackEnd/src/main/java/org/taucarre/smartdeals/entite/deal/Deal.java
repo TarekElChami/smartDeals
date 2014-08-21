@@ -29,10 +29,14 @@ public class Deal implements Serializable {
 	private Date dateExpirationDeal;
 	private Boolean expire;
 	private String imageDeal;
-//	private List<Commentaire> listeCommentaires;
-//	private Evaluation evaluation;
+	private String adresseDeal;
+	private String latitudeDeal;
+	private String longitudeDeal;
+	private Integer scoreDeal;
 	
-	private String categorieDeal;
+//	private List<Commentaire> listeCommentaires;
+	
+	private CategorieDeal categorieDeal;
 	
 	private TypeDeal typeDeal;
 	
@@ -83,12 +87,7 @@ public class Deal implements Serializable {
 //	public void setListeCommentaires(List<Commentaire> listeCommentaires) {
 //		this.listeCommentaires = listeCommentaires;
 //	}
-//	public Evaluation getEvaluation() {
-//		return evaluation;
-//	}
-//	public void setEvaluation(Evaluation evaluation) {
-//		this.evaluation = evaluation;
-//	}
+
 	public Long getIdDeal() {
 		return idDeal;
 	}
@@ -121,13 +120,6 @@ public class Deal implements Serializable {
 		this.dateExpirationDeal = dateExpirationDeal;
 	}
 
-	public String getCategorieDeal() {
-		return categorieDeal;
-	}
-
-	public void setCategorieDeal(String categorieDeal) {
-		this.categorieDeal = categorieDeal;
-	}
 
 	public TypeDeal getTypeDeal() {
 		return typeDeal;
@@ -137,8 +129,45 @@ public class Deal implements Serializable {
 		this.typeDeal = typeDeal;
 	}
 
-	
+	public String getAdresseDeal() {
+		return adresseDeal;
+	}
 
+	public void setAdresseDeal(String adresseDeal) {
+		this.adresseDeal = adresseDeal;
+	}
+
+	public String getLatitudeDeal() {
+		return latitudeDeal;
+	}
+
+	public void setLatitudeDeal(String latitudeDeal) {
+		this.latitudeDeal = latitudeDeal;
+	}
+
+	public String getLongitudeDeal() {
+		return longitudeDeal;
+	}
+
+	public void setLongitudeDeal(String longitudeDeal) {
+		this.longitudeDeal = longitudeDeal;
+	}
+
+	public Integer getScoreDeal() {
+		return scoreDeal;
+	}
+
+	public void setScoreDeal(Integer scoreDeal) {
+		this.scoreDeal = scoreDeal;
+	}
+
+	public CategorieDeal getCategorieDeal() {
+		return categorieDeal;
+	}
+
+	public void setCategorieDeal(CategorieDeal categorieDeal) {
+		this.categorieDeal = categorieDeal;
+	}
 	
 
 }
