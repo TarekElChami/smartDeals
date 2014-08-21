@@ -9,8 +9,12 @@ import com.appspot.smart_deals.smartdeals.Smartdeals;
 import com.appspot.smart_deals.smartdeals.model.Deal;
 import com.appspot.smart_deals.smartdeals.model.DealCollection;
 import com.taucarre.smartdeals.smartdealsapp.application.AppConstants;
+import com.taucarre.smartdeals.smartdealsapp.application.SmartDealsApplication;
+import com.taucarre.smartdeals.smartdealsapp.persistence.DbHelper;
+import com.taucarre.smartdeals.smartdealsapp.persistence.DealsDataDao;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,12 +26,20 @@ import java.util.List;
  */
 public class UpdaterService extends IntentService {
 
+    SmartDealsApplication smartDealsApplication;
+
     private static final String ACTION_UPDATE = "smartdeals.action.update";
     private static final String ACTION_SYNCHRONIZE = "com.taucarre.smartdeals.smartdealsapp.services.action.synchronize";
 
     // TODO: Rename parameters
     private static final String EXTRA_PARAM1 = "com.taucarre.smartdeals.smartdealsapp.services.extra.PARAM1";
     private static final String EXTRA_PARAM2 = "com.taucarre.smartdeals.smartdealsapp.services.extra.PARAM2";
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        smartDealsApplication = (SmartDealsApplication) getApplication();
+    }
 
     /**
      * Starts this service to perform action update with the given parameters. If
@@ -84,19 +96,31 @@ public class UpdaterService extends IntentService {
     private void handleActionUpdate(String param1, String param2) {
         Smartdeals apiServiceHandle = AppConstants.getApiServiceHandle();
 
-        /*
         try {
             Smartdeals.ListDeals listeDealCommand = apiServiceHandle.listDeals();
             DealCollection dealCollection = listeDealCommand.execute();
 
             List<Deal> listeItems = dealCollection.getItems();
 
+            if(listeItems !=null && !listeItems.isEmpty()){
+                DealsDataDao dealsDataDao = new DealsDataDao(smartDealsApplication);
+                for(Deal deal : listeItems) {
+                    dealsDataDao.insertOrIgnoreDeal(deal);
+                }
+                /*
+                DbWorker thread = new DbWorker(listeItems);
+                while(thread.nombreUpdate > 0){
+                    thread.run();
+                }
+                */
+
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        */
-        Toast.makeText(getApplicationContext(),"update service started", Toast.LENGTH_LONG).show();
+
+        this.stopSelf();
 
     }
 
@@ -107,5 +131,35 @@ public class UpdaterService extends IntentService {
     private void handleActionSynchronize(String param1, String param2) {
         // TODO: Handle action Baz
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+
+    class DbWorker extends Thread{
+
+        private List<Deal> listeDealsARemplir;
+        DealsDataDao dealsDataDao;
+        int nombreUpdate = 0;
+
+        public DbWorker(){
+            dealsDataDao = new DealsDataDao(smartDealsApplication);
+            listeDealsARemplir = new ArrayList<Deal>();
+            setName("update db worker");
+        }
+
+        public DbWorker(List<Deal> listeDeals){
+            dealsDataDao = new DealsDataDao(smartDealsApplication);
+            setName("update db worker");
+            listeDealsARemplir = listeDeals;
+            nombreUpdate = listeDealsARemplir.size();
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            for(Deal deal : listeDealsARemplir) {
+                dealsDataDao.insertOrIgnoreDeal(deal);
+                nombreUpdate--;
+            }
+        }
     }
 }

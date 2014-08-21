@@ -26,12 +26,21 @@ tools:context="com.taucarre.smartdeals.smartdealsapp.activities.FocusOnDealActiv
      android:layout_below="@id/nomDealZoom"
      />
 
+
+    <TextView
+        android:id="@+id/prixDealZoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/prixDeal"
+        android:layout_below="@id/marchandDealZoom"
+        />
+
 <TextView
     android:id="@+id/textDescDealZoom"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:text="Description deal "
-    android:layout_below="@id/marchandDealZoom"
+    android:layout_below="@id/prixDealZoom"
     />
 
 

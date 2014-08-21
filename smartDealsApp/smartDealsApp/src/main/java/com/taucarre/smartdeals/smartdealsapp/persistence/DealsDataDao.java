@@ -8,7 +8,9 @@ import android.util.Log;
 
 import com.appspot.smart_deals.smartdeals.model.Deal;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,11 +35,12 @@ public class DealsDataDao {
         this.dbHelper.close();
     }
 
-    public void insertOrIgnoreDeal(Deal deal) {
+    public void  insertOrIgnoreDeal(Deal deal) {
         ContentValues values = dealToValues(deal);
 
         Log.d(TAG, "insertOrIgnore on " + values);
         SQLiteDatabase db = this.dbHelper.getWritableDatabase();
+
         try {
             db.insertWithOnConflict(DbHelper.DEALS_TABLE, null, values,
                     SQLiteDatabase.CONFLICT_IGNORE);
@@ -46,13 +49,24 @@ public class DealsDataDao {
         }
     }
 
+    public void updateDeal(String idDeal, String lat, String longitude){
+        ContentValues args = new ContentValues();
+        args.put(DbHelper.LATITUDE_DEAL, lat);
+        args.put(DbHelper.LONGETUDE_DEAL, longitude);
+        SQLiteDatabase db = this.dbHelper.getWritableDatabase();
+        db.updateWithOnConflict(DbHelper.DEALS_TABLE,
+                args,
+                DbHelper.ID_DEAL + " = " + idDeal,
+                null, SQLiteDatabase.CONFLICT_IGNORE);
+    }
+
     public List<Deal> getAllDeals(){
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
         List<Deal> listeDeals = new ArrayList<Deal>();
 
         Cursor cursor =  db.query(DbHelper.DEALS_TABLE, null, null, null, null, null, GET_ALL_ORDER_BY);
 
-        if(cursor != null) {
+        if(cursor != null && cursor.moveToNext() && cursor.getCount() > 0 ) {
             while (!cursor.isAfterLast()) {
                 Deal deal = cursorToDeal(cursor);
                 listeDeals.add(deal);
@@ -67,6 +81,17 @@ public class DealsDataDao {
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
         return db.query(DbHelper.DEALS_TABLE,null, DbHelper.ID_DEAL + " = " + idDeal,
                 null, null, null, null);
+    }
+
+    public Deal getDealForDetails(String nomDeal, String marchandDeal, String descDeal){
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        Cursor cursor = db.query(
+                DbHelper.DEALS_TABLE,null,
+                DbHelper.NOM_DEAL + " = ? AND " +
+                DbHelper.MARCHAND_DEAL + " = ? AND " + DbHelper.DESCRIPTION_DEAL + " =  ? ",
+                new String[] {nomDeal, marchandDeal, descDeal},null, null, null);
+
+        return cursorToDeal(cursor);
     }
 
     /**
@@ -85,7 +110,7 @@ public class DealsDataDao {
 
     private ContentValues dealToValues(Deal deal){
         ContentValues values = new ContentValues();
-        values.put(DbHelper.ID_DEAL, deal.getIdDeal().intValue());
+        values.put(DbHelper.ID_DEAL, deal.getIdDeal());
         values.put(DbHelper.NOM_DEAL, deal.getNomDeal());
         values.put(DbHelper.MARCHAND_DEAL, deal.getNomMarchand());
         values.put(DbHelper.CATEGORIE_DEAL, deal.getCategorieDeal());
@@ -93,13 +118,15 @@ public class DealsDataDao {
         values.put(DbHelper.DESCRIPTION_DEAL, deal.getDesciprtionDeal());
         values.put(DbHelper.IMAGE_DEAL, deal.getImageDeal());
         values.put(DbHelper.EXPIRE_DEAL, deal.getExpire());
-        values.put(DbHelper.DATE_CREATION_DEAL, deal.getDateDeCreationDeal().getValue());
+        if(deal.getDateDeCreationDeal() != null){
+            values.put(DbHelper.DATE_CREATION_DEAL,deal.getDateDeCreationDeal().getValue());
+        }
         values.put(DbHelper.PRIX_DEAL, deal.getPrix());
         values.put(DbHelper.PRIX_CONSTATE_DEAL, deal.getPrix());
-        values.put(DbHelper.ADRESSE_DEAL,"adresse");
-        values.put(DbHelper.LATITUDE_DEAL,"");
-        values.put(DbHelper.LONGETUDE_DEAL, "");
-        values.put(DbHelper.EVALUATION_DEAL, 0);
+        values.put(DbHelper.ADRESSE_DEAL, deal.getAdresseDeal());
+        values.put(DbHelper.LATITUDE_DEAL, deal.getLatitudeDeal());
+        values.put(DbHelper.LONGETUDE_DEAL, deal.getLongitudeDeal());
+        values.put(DbHelper.EVALUATION_DEAL, deal.getScoreDeal());
 
         return values;
     }
@@ -107,7 +134,7 @@ public class DealsDataDao {
 
     private Deal cursorToDeal(Cursor cursor){
         Deal deal = new Deal();
-        deal.setIdDeal(new Long(cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.ID_DEAL))));
+        deal.setIdDeal(Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.ID_DEAL))));
         deal.setNomDeal(cursor.getString(cursor.getColumnIndex(DbHelper.NOM_DEAL)));
         deal.setNomMarchand(cursor.getString(cursor.getColumnIndex(DbHelper.MARCHAND_DEAL)));
         deal.setImageDeal(cursor.getString(cursor.getColumnIndex(DbHelper.IMAGE_DEAL)));

@@ -64,9 +64,10 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String CONTENU_COMMENTAIRE = "contenu_commentaire";
 
 
+
     private String CREATE_DEALS_TABLE =
                     " create table if not exists " + DEALS_TABLE + " ( " +
-                    ID_DEAL  + " int primary key, " +
+                    ID_DEAL  + " text primary key, " +
                     NOM_DEAL + " text, " +
                     MARCHAND_DEAL + " text, " +
                     PRIX_DEAL + " real, " +
@@ -87,7 +88,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private String CREATE_USERS_TABLE =
                     " create table if not exists " + USERS_TABLE + " ( " +
-                    ID_USER  + " int primary key, " +
+                    ID_USER  + " text primary key, " +
                     NOM_USER + " text, " +
                     LOGIN_USER + " text, " +
                     MAIL_USER + " text, " +
@@ -99,8 +100,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     private String CREATE_COMMENTAIRES_TABLE =
-                    " create table if not exists" + COMMENTAIRES_TABLE + " ( " +
-                    ID_COMMENTAIRE  + " int primary key, " +
+                    " create table if not exists " + COMMENTAIRES_TABLE + " ( " +
+                    ID_COMMENTAIRE  + " text primary key, " +
                     ID_USER_COMMENTAIRE + " int, " +
                     ID_DEAL_COMMENTAIRE + " int, " +
                     CONTENU_COMMENTAIRE + " text ) ";

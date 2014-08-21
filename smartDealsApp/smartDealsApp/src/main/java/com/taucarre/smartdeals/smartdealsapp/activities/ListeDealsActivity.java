@@ -2,11 +2,13 @@ package com.taucarre.smartdeals.smartdealsapp.activities;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +20,7 @@ import com.taucarre.smartdeals.smartdealsapp.application.SmartDealsApplication;
 import com.taucarre.smartdeals.smartdealsapp.modele.ListeDeal;
 import com.taucarre.smartdeals.smartdealsapp.R;
 import com.taucarre.smartdeals.smartdealsapp.application.AppConstants;
+import com.taucarre.smartdeals.smartdealsapp.persistence.DealsDataDao;
 import com.taucarre.smartdeals.smartdealsapp.services.UpdaterService;
 
 import java.io.IOException;
@@ -38,6 +41,9 @@ public class ListeDealsActivity extends ListActivity {
         setContentView(R.layout.activity_liste_deals);
 
         smartDealsApplication = (SmartDealsApplication) getApplication();
+
+        Intent intent = new Intent("smartdeals.action.update");
+        startService(intent);
 
 
         liste = (ListView) findViewById(android.R.id.list);
@@ -108,20 +114,11 @@ public class ListeDealsActivity extends ListActivity {
         @Override
         protected Void doInBackground(Void... voids) {
 
-            Smartdeals apiServiceHandle = AppConstants.getApiServiceHandle();
-
-            try {
-                Smartdeals.ListDeals listeDealCommand = apiServiceHandle.listDeals();
-                DealCollection dealCollection = listeDealCommand.execute();
-
-                List<Deal> listeItems = dealCollection.getItems();
+            DealsDataDao dealsDataDao = new DealsDataDao(smartDealsApplication);
+            List<Deal> listeItems = dealsDataDao.getAllDeals();
                 for (Deal deal : listeItems) {
                     listeDeal.add(deal);
                 }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             return null;
         }
 
