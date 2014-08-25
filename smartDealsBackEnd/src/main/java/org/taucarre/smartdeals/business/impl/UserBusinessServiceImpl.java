@@ -30,8 +30,10 @@ public class UserBusinessServiceImpl implements UserBusinessService {
 			user.setIdUser(userExistant.getIdUser());
 			return mettreAjourUser(user);
 		}else{
-			UUID id = UUID.randomUUID();
-			user.setIdUser(id.getMostSignificantBits());
+			if(user.getIdUser() == null){
+				UUID id = UUID.randomUUID();
+				user.setIdUser(id.getMostSignificantBits());
+			}
 			return userPersistenceService.ajouterUser(user);
 		}
 	}
