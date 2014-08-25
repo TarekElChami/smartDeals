@@ -193,6 +193,15 @@ public class AjoutDealActivity extends Activity implements AdapterView.OnItemSel
             return;
         };
 
+        TextView dealAdresseInput = (TextView)rootView.findViewById(R.id.adresseDealEditText);
+        if (dealAdresseInput.getText()==null ||
+                Strings.isNullOrEmpty(dealAdresseInput.getText().toString())) {
+            Toast.makeText(this, "Input a Deal Adress", Toast.LENGTH_SHORT).show();
+            return;
+        };
+
+
+
         TextView dealNomMarchandInput = (TextView)rootView.findViewById(R.id.nomMarchandEditText);
         if (dealNomMarchandInput.getText()==null ||
                 Strings.isNullOrEmpty(dealNomMarchandInput.getText().toString())) {
@@ -213,6 +222,7 @@ public class AjoutDealActivity extends Activity implements AdapterView.OnItemSel
         final String dealNameString = dealNameInput.getText().toString();
         final String dealDescString = dealDescInput.getText().toString();
         final String dealMarchandString = dealNomMarchandInput.getText().toString();
+        final String dealAdressString = dealAdresseInput.getText().toString();
 
         String dealPriceString = dealpriceInput.getText().toString();
         final int dealPrice = Integer.parseInt(dealPriceString);
@@ -244,6 +254,7 @@ public class AjoutDealActivity extends Activity implements AdapterView.OnItemSel
                     deal.setImageDeal(encodedDealImage);
                     deal.setCategorieDeal(categorieDeal);
                     deal.setTypeDeal(typeDeal);
+                    deal.setAdresseDeal(dealAdressString);
 
                     Smartdeals.InsertDeal insertDealCommand = apiServiceHandle.insertDeal(deal);
                     insertDealCommand.execute();

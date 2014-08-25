@@ -20,17 +20,17 @@
     <string-array name="categorieDeal">
         <item>HIGH_TECH</item>
         <item>AUDIOVISUEL</item>
-        <item>LOISIR</item>
+        <item>LOISIRS</item>
         <item>MODE</item>
         <item>MAISON</item>
         <item>SERVICES</item>
         <item>EPICERIE</item>
     </string-array>
     <string-array name="typeDeal">
-        <item>Bon Plan</item>
-        <item>Bons Reduction</item>
-        <item>Vente Flash</item>
-        <item>Offre Gratuite</item>
+        <item>BON_PLAN</item>
+        <item>BONS_REDUCTION</item>
+        <item>VENTE_FLASH</item>
+        <item>OFFRE_GRATUITE</item>
     </string-array>
 
     <string name="hello_world">Hello world!</string>

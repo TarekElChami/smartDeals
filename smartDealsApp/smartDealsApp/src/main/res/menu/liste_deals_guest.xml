@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.taucarre.smartdeals.smartdealsapp.activities.ListeDealsActivity" >
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/login"
+        android:title="S'authentifier"
+        android:orderInCategory="101"
+        app:showAsAction = "never"
+        android:icon="@drawable/login"/>
+    <item
+        android:id="@+id/updateMenu"
+        android:orderInCategory="202"
+        android:title="update"
+        app:showAsAction ="never"
+        android:icon="@android:drawable/ic_media_play"/>
+
+</menu>

@@ -85,13 +85,23 @@ public class DealsDataDao {
 
     public Deal getDealForDetails(String nomDeal, String marchandDeal, String descDeal){
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from deals where " +
+                        DbHelper.NOM_DEAL + " = ? AND " +
+                        DbHelper.MARCHAND_DEAL + " = ? AND " +
+                        DbHelper.DESCRIPTION_DEAL  + " =  ? ",
+                new String[]{nomDeal, marchandDeal, descDeal});
+        /*
         Cursor cursor = db.query(
                 DbHelper.DEALS_TABLE,null,
                 DbHelper.NOM_DEAL + " = ? AND " +
                 DbHelper.MARCHAND_DEAL + " = ? AND " + DbHelper.DESCRIPTION_DEAL + " =  ? ",
                 new String[] {nomDeal, marchandDeal, descDeal},null, null, null);
-
-        return cursorToDeal(cursor);
+*/
+           if(cursor.moveToNext()){
+                return cursorToDeal(cursor);
+            }else{
+            return null;
+        }
     }
 
     /**
@@ -149,6 +159,9 @@ public class DealsDataDao {
         }else{
             deal.setExpire(true);
         }
+        deal.setAdresseDeal(cursor.getString(cursor.getColumnIndex(DbHelper.ADRESSE_DEAL)));
+        deal.setLatitudeDeal(cursor.getString(cursor.getColumnIndex(DbHelper.LATITUDE_DEAL)));
+        deal.setLongitudeDeal(cursor.getString(cursor.getColumnIndex(DbHelper.LONGETUDE_DEAL)));
         //deal.setDateDeCreationDeal();
         //deal.setDateExpirationDeal();
         return  deal;

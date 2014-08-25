@@ -22,10 +22,13 @@ import com.appspot.smart_deals.smartdeals.model.User;
 import com.google.common.base.Strings;
 import com.taucarre.smartdeals.smartdealsapp.R;
 import com.taucarre.smartdeals.smartdealsapp.application.AppConstants;
+import com.taucarre.smartdeals.smartdealsapp.application.SmartDealsApplication;
+import com.taucarre.smartdeals.smartdealsapp.persistence.UsersDataDao;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.UUID;
 
 
 public class ConfigurerProfilActivity extends ActionBarActivity {
@@ -36,10 +39,18 @@ public class ConfigurerProfilActivity extends ActionBarActivity {
 
     private ImageView avatarImage;
 
+    private SmartDealsApplication smartDealsApplication;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configurer_profil);
+
+        smartDealsApplication = (SmartDealsApplication) getApplication();
+
+        if(getIntent().getStringExtra("user") != null){
+            Toast.makeText(getApplicationContext(),"Veuillez vous enregistrer", Toast.LENGTH_LONG).show();
+        }
         avatarImage = (ImageView) findViewById(R.id.userAvatar);
     }
 
@@ -169,11 +180,10 @@ public class ConfigurerProfilActivity extends ActionBarActivity {
         final String userMailString = userMailInput.getText().toString();
 
 
-        AsyncTask<Void, Void, User> sendUser = new AsyncTask<Void, Void, User>() {
+        AsyncTask<Void, Void, User> saveUser = new AsyncTask<Void, Void, User>() {
             @Override
             protected User doInBackground(Void... params) {
-                Smartdeals apiServiceHandle = AppConstants.getApiServiceHandle();
-            try {
+
                 User user = new User();
                 user.setBanned(false);
                 user.setLogin(userLoginString);
@@ -184,16 +194,14 @@ public class ConfigurerProfilActivity extends ActionBarActivity {
                 user.setRoleUtilisateur("INSIDER");
                 user.setAvatar(encodedAvatarImage);
 
-                Smartdeals.InsertUser insertUserCommand = apiServiceHandle.insertUser(user);
+                UUID id = UUID.randomUUID();
+                user.setIdUser(id.getMostSignificantBits());
 
-                insertUserCommand.execute();
+                UsersDataDao usersDataDao = new UsersDataDao(smartDealsApplication);
+                usersDataDao.insertOrIgnoreUser(user);
+
                 return user;
 
-                } catch (IOException e) {
-                    Log.e(TAG, "Exception during API call", e);
-                }
-
-                return null;
             }
 
             @Override
@@ -206,7 +214,7 @@ public class ConfigurerProfilActivity extends ActionBarActivity {
             }
         };
 
-        sendUser.execute((Void)null);
+        saveUser.execute((Void)null);
 
     }
 }

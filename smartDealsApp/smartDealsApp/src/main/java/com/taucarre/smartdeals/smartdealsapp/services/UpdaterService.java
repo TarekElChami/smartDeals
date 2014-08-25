@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.appspot.smart_deals.smartdeals.Smartdeals;
 import com.appspot.smart_deals.smartdeals.model.Deal;
 import com.appspot.smart_deals.smartdeals.model.DealCollection;
+import com.appspot.smart_deals.smartdeals.model.User;
 import com.taucarre.smartdeals.smartdealsapp.application.AppConstants;
 import com.taucarre.smartdeals.smartdealsapp.application.SmartDealsApplication;
 import com.taucarre.smartdeals.smartdealsapp.persistence.DbHelper;
@@ -29,10 +30,10 @@ public class UpdaterService extends IntentService {
     SmartDealsApplication smartDealsApplication;
 
     private static final String ACTION_UPDATE = "smartdeals.action.update";
-    private static final String ACTION_SYNCHRONIZE = "com.taucarre.smartdeals.smartdealsapp.services.action.synchronize";
+    private static final String ACTION_SYNCHRONIZE = "smartdeals.action.synchronize";
 
     // TODO: Rename parameters
-    private static final String EXTRA_PARAM1 = "com.taucarre.smartdeals.smartdealsapp.services.extra.PARAM1";
+    private static final String EXTRA_PARAM1 = "smartdeals.synchronize.user";
     private static final String EXTRA_PARAM2 = "com.taucarre.smartdeals.smartdealsapp.services.extra.PARAM2";
 
     @Override
@@ -107,12 +108,6 @@ public class UpdaterService extends IntentService {
                 for(Deal deal : listeItems) {
                     dealsDataDao.insertOrIgnoreDeal(deal);
                 }
-                /*
-                DbWorker thread = new DbWorker(listeItems);
-                while(thread.nombreUpdate > 0){
-                    thread.run();
-                }
-                */
 
             }
 
@@ -129,9 +124,18 @@ public class UpdaterService extends IntentService {
      * parameters.
      */
     private void handleActionSynchronize(String param1, String param2) {
-        // TODO: Handle action Baz
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+        try {
+            if (smartDealsApplication.getUsersAuthentifie() != null &&
+                    !smartDealsApplication.getUsersAuthentifie().isEmpty()) {
+                Smartdeals apiServiceHandle = AppConstants.getApiServiceHandle();
+                for(User user : smartDealsApplication.getUsersAuthentifie()) {
+                    Smartdeals.InsertUser insertUserCommand = apiServiceHandle.insertUser(user);
+                    insertUserCommand.execute();
+                }
+            }}catch(IOException e){
+                e.printStackTrace();
+            }
+        }
 
 
     class DbWorker extends Thread{

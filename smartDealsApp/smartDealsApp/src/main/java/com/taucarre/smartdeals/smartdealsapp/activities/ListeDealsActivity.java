@@ -2,28 +2,21 @@ package com.taucarre.smartdeals.smartdealsapp.activities;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.appspot.smart_deals.smartdeals.Smartdeals;
 import com.appspot.smart_deals.smartdeals.model.Deal;
-import com.appspot.smart_deals.smartdeals.model.DealCollection;
 import com.taucarre.smartdeals.smartdealsapp.application.SmartDealsApplication;
 import com.taucarre.smartdeals.smartdealsapp.modele.ListeDeal;
 import com.taucarre.smartdeals.smartdealsapp.R;
-import com.taucarre.smartdeals.smartdealsapp.application.AppConstants;
 import com.taucarre.smartdeals.smartdealsapp.persistence.DealsDataDao;
-import com.taucarre.smartdeals.smartdealsapp.services.UpdaterService;
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -42,9 +35,11 @@ public class ListeDealsActivity extends ListActivity {
 
         smartDealsApplication = (SmartDealsApplication) getApplication();
 
+        Intent intent2 = new Intent("smartdeals.action.synchronize");
+        startService(intent2);
+
         Intent intent = new Intent("smartdeals.action.update");
         startService(intent);
-
 
         liste = (ListView) findViewById(android.R.id.list);
         liste.requestFocus();
@@ -54,49 +49,77 @@ public class ListeDealsActivity extends ListActivity {
 
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.liste_deals, menu);
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        smartDealsApplication = (SmartDealsApplication) getApplication();
+        if(smartDealsApplication.isUserAthentifie()) {
+            menu.findItem(R.id.login).setVisible(false);
+            menu.findItem(R.id.deconnecter).setVisible(true);
+            menu.findItem(R.id.ajouterDeal).setVisible(true);
+            menu.findItem(R.id.configurerProfilMenu).setVisible(true);
+
+        }else{
+            menu.findItem(R.id.login).setVisible(true);
+            menu.findItem(R.id.deconnecter).setVisible(false);
+            menu.findItem(R.id.ajouterDeal).setVisible(false);
+            menu.findItem(R.id.configurerProfilMenu).setVisible(false);
+        }
         return true;
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.liste_deals_insider, menu);
+
+        return true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        smartDealsApplication.getDbHelper().close();
+        Intent intent2 = new Intent("smartdeals.action.synchronize");
+        Intent intent = new Intent("smartdeals.action.update");
+        stopService(intent2);
+        stopService(intent);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         Intent intent = new Intent();
         String action;
-        switch (id){
-            case R.id.ajouterDeal:
-                action = "SMARTDEALS_PROPOSITION_DEAL_ACTIVITE";
-                intent.setAction(action);
-                startActivity(intent);
-                break;
-            case R.id.configurerProfilMenu :
-                action ="SMARTDEALS_CONFIGURER_PROFIL_ACTIVITE";
-                intent.setAction(action);
-                startActivity(intent);
-                break;
-            case R.id.test:
-                action = "SMARTDEALS_TEST";
-                intent.setAction(action);
-                startActivity(intent);
-                break;
-            case R.id.action_settings :
-                startActivity(new Intent(this, ParametrerApplicationActivity.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-                break;
-            case R.id.updateMenu :
-                action = "smartdeals.action.update";
-                intent.setAction(action);
-                startService(intent);
-                break;
-        }
-
+            switch (id) {
+                case R.id.login:
+                    intent.setClass(smartDealsApplication, LoginActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.deconnecter:
+                    action = "smartdeals.action.deconnecter";
+                    intent.setAction(action);
+                    startService(intent);
+                    break;
+                case R.id.ajouterDeal:
+                    action = "SMARTDEALS_PROPOSITION_DEAL_ACTIVITE";
+                    intent.setAction(action);
+                    startActivity(intent);
+                    break;
+                case R.id.configurerProfilMenu:
+                    action = "SMARTDEALS_CONFIGURER_PROFIL_ACTIVITE";
+                    intent.setAction(action);
+                    startActivity(intent);
+                    break;
+                case R.id.action_settings:
+                    startActivity(new Intent(this, ParametrerApplicationActivity.class)
+                            .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                    break;
+                case R.id.updateMenu:
+                    action = "smartdeals.action.update";
+                    intent.setAction(action);
+                    startService(intent);
+                    break;
+            }
         return super.onOptionsItemSelected(item);
 
     }
@@ -119,6 +142,8 @@ public class ListeDealsActivity extends ListActivity {
                 for (Deal deal : listeItems) {
                     listeDeal.add(deal);
                 }
+            smartDealsApplication.getDbHelper().close();
+            smartDealsApplication.setListeDeal(listeDeal);
             return null;
         }
 
