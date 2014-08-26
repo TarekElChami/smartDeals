@@ -1,5 +1,6 @@
 package org.taucarre.smartdeals.persistence.datastore;
 
+import org.taucarre.smartdeals.entite.comment.Comment;
 import org.taucarre.smartdeals.entite.deal.Deal;
 import org.taucarre.smartdeals.entite.deal.TypeDeal;
 import org.taucarre.smartdeals.entite.user.User;
@@ -12,7 +13,10 @@ public class ObjectifyDAO {
 
 	static { ObjectifyService.register(Deal.class);
 			 ObjectifyService.register(User.class);
-	 		 }
+			 
+			 //pour les commentaires
+			 ObjectifyService.register(Comment.class);
+	}
 
 	static Objectify oby() { return ObjectifyService.ofy(); };
 }
