@@ -46,8 +46,8 @@ public class SmartDealsApplication extends Application
         super.onCreate();
         this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
         this.prefs.registerOnSharedPreferenceChangeListener(this);
-        taillListe = Integer.parseInt(this.prefs.getString("taille_liste",String.valueOf(TAILLE_LISTE_PAR_DEFAULT)));
-        frequenceUpdate = Integer.parseInt(this.prefs.getString("frequence_update", String.valueOf(FREQUENCE_UPDATE_PAR_DEFAULT)));
+        taillListe = this.prefs.getInt("taille_liste",TAILLE_LISTE_PAR_DEFAULT);
+        frequenceUpdate = this.prefs.getInt("frequence_update", FREQUENCE_UPDATE_PAR_DEFAULT);
         this.dbHelper = new DbHelper(this);
         dataBaseCreated = true;
         Log.i(TAG, "Smart Deals application started");
@@ -120,5 +120,21 @@ public class SmartDealsApplication extends Application
 
     public void setUsersAuthentifie(List<User> usersAuthentifie) {
         this.usersAuthentifie = usersAuthentifie;
+    }
+
+    public int getFrequenceUpdate() {
+        return frequenceUpdate;
+    }
+
+    public void setFrequenceUpdate(int frequenceUpdate) {
+        this.frequenceUpdate = frequenceUpdate;
+    }
+
+    public int getTaillListe() {
+        return taillListe;
+    }
+
+    public void setTaillListe(int taillListe) {
+        this.taillListe = taillListe;
     }
 }

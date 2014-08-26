@@ -138,7 +138,9 @@ public class ListeDealsActivity extends ListActivity {
         protected Void doInBackground(Void... voids) {
 
             DealsDataDao dealsDataDao = new DealsDataDao(smartDealsApplication);
-            List<Deal> listeItems = dealsDataDao.getAllDeals();
+            List<Deal> listeItems = dealsDataDao.getLimitedDeals(smartDealsApplication.getTaillListe());
+
+
                 for (Deal deal : listeItems) {
                     listeDeal.add(deal);
                 }

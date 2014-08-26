@@ -77,6 +77,23 @@ public class DealsDataDao {
         return listeDeals;
     }
 
+
+    public List<Deal> getLimitedDeals(int limit){
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        List<Deal> listeDeals = new ArrayList<Deal>();
+        String requete = "select * from deals LIMIT " + limit ;
+        Cursor cursor = db.rawQuery(requete, null);
+        if(cursor != null && cursor.moveToNext() && cursor.getCount() > 0 ) {
+            while (!cursor.isAfterLast()) {
+                Deal deal = cursorToDeal(cursor);
+                listeDeals.add(deal);
+                cursor.moveToNext();
+            }
+        }
+
+        return listeDeals;
+    }
+
     public Cursor getDealById(int idDeal){
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
         return db.query(DbHelper.DEALS_TABLE,null, DbHelper.ID_DEAL + " = " + idDeal,
