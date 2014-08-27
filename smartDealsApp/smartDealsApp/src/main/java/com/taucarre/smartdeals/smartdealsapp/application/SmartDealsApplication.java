@@ -46,8 +46,8 @@ public class SmartDealsApplication extends Application
         super.onCreate();
         this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
         this.prefs.registerOnSharedPreferenceChangeListener(this);
-        taillListe = this.prefs.getInt("taille_liste",TAILLE_LISTE_PAR_DEFAULT);
-        frequenceUpdate = this.prefs.getInt("frequence_update", FREQUENCE_UPDATE_PAR_DEFAULT);
+        taillListe = Integer.valueOf(prefs.getString("taille_liste","10"));
+        frequenceUpdate = Integer.valueOf(prefs.getString("frequence_update", "60"));
         this.dbHelper = new DbHelper(this);
         dataBaseCreated = true;
         Log.i(TAG, "Smart Deals application started");

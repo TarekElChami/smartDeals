@@ -19,6 +19,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String USERS_TABLE = "users";
     public static final String PARAM_TABLE = "parametres";
     public static final String COMMENTAIRES_TABLE = "commentaires";
+    public static final String FAVORITE_DEALS = "favorite_deals";
 
     /******* Deals TABLE Columns ******/
     public static final String ID_DEAL = "id_deal";
@@ -38,6 +39,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String DATE_EXPIRATION_DEAL = "date_expiration_deal";
     public static final String EXPIRE_DEAL = "expire_deal";
     public static final String EVALUATION_DEAL = "evaluation_deal";
+    public static final String ID_ADDED_BY = "added_by";
 
 
     /****** Users TABLE Columns *******/
@@ -63,6 +65,9 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String ID_DEAL_COMMENTAIRE = "id_deal_commentaire";
     public static final String CONTENU_COMMENTAIRE = "contenu_commentaire";
 
+    /**** MY_FAVORITE_DEALS TABLE columns ****/
+
+
 
 
     private String CREATE_DEALS_TABLE =
@@ -83,7 +88,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     DATE_CREATION_DEAL + " int, " +
                     DATE_EXPIRATION_DEAL + " int, " +
                     EXPIRE_DEAL + " int, " +
-                    EVALUATION_DEAL + " int ) ";
+                    EVALUATION_DEAL + " int, +" +
+                    ID_ADDED_BY + " text ) ";
 
 
     private String CREATE_USERS_TABLE =
@@ -106,6 +112,12 @@ public class DbHelper extends SQLiteOpenHelper {
                     ID_DEAL_COMMENTAIRE + " int, " +
                     CONTENU_COMMENTAIRE + " text ) ";
 
+    private String CREATE_FAVORITE_DEALS_TABLE =
+                    " create table if not exists " + FAVORITE_DEALS + " ( " +
+                    ID_USER  + " text , " +
+                    ID_DEAL + " text , "  +
+                    "PRIMARY KEY ( " + ID_USER + ", " + ID_DEAL + ") ) ";
+
 
 
     public DbHelper(Context context){
@@ -123,6 +135,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
             Log.d(TAG, "Creating COMMENTAIRES TABLE");
             db.execSQL(CREATE_COMMENTAIRES_TABLE);
+
+            Log.d(TAG, "Creating favorites deals TABLE");
+            db.execSQL(CREATE_FAVORITE_DEALS_TABLE);
     }
 
     @Override
@@ -130,6 +145,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("drop table " + DEALS_TABLE);
         db.execSQL("drop table " + USERS_TABLE);
         db.execSQL("drop table " + COMMENTAIRES_TABLE);
+        db.execSQL("drop table " + FAVORITE_DEALS);
         this.onCreate(db);
     }
 }

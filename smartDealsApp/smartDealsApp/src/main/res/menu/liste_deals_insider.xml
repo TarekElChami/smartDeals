@@ -32,4 +32,10 @@
         android:title="update"
         app:showAsAction ="never"
         android:icon="@android:drawable/ic_media_play"/>
+    <item
+        android:id="@+id/showFavoris"
+        android:orderInCategory="203"
+        android:title="favoris"
+        app:showAsAction ="never"
+       />
 </menu>

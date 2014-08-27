@@ -4,9 +4,12 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +36,7 @@ public class ListeDealsActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_deals);
 
+
         smartDealsApplication = (SmartDealsApplication) getApplication();
 
         Intent intent2 = new Intent("smartdeals.action.synchronize");
@@ -43,8 +47,17 @@ public class ListeDealsActivity extends ListActivity {
 
         liste = (ListView) findViewById(android.R.id.list);
         liste.requestFocus();
+        registerForContextMenu(liste);
         listeDeal = new ListeDeal();
-        new ChargerListeDeal().execute();
+
+        boolean showFavori = getIntent().getBooleanExtra("show_favoris", false);
+        if(showFavori){
+            String params[] =  {
+                    String.valueOf(smartDealsApplication.getUsersAuthentifie().get(0).getIdUser())};
+            new ChargerListeFavori().execute(params);
+        }else{
+            new ChargerListeDeal().execute();
+            }
 
 
     }
@@ -57,12 +70,15 @@ public class ListeDealsActivity extends ListActivity {
             menu.findItem(R.id.deconnecter).setVisible(true);
             menu.findItem(R.id.ajouterDeal).setVisible(true);
             menu.findItem(R.id.configurerProfilMenu).setVisible(true);
+            menu.findItem(R.id.showFavoris).setVisible(true);
 
         }else{
             menu.findItem(R.id.login).setVisible(true);
             menu.findItem(R.id.deconnecter).setVisible(false);
             menu.findItem(R.id.ajouterDeal).setVisible(false);
             menu.findItem(R.id.configurerProfilMenu).setVisible(false);
+            menu.findItem(R.id.showFavoris).setVisible(false);
+
         }
         return true;
     }
@@ -119,11 +135,44 @@ public class ListeDealsActivity extends ListActivity {
                     intent.setAction(action);
                     startService(intent);
                     break;
+                case R.id.showFavoris:
+                    intent.setClass(smartDealsApplication,ListeDealsActivity.class);
+                    intent.putExtra("show_favoris", true);
+                    startActivity(intent);
             }
         return super.onOptionsItemSelected(item);
 
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if(smartDealsApplication.isUserAthentifie()) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.context_menu_liste_principale, menu);
+        }
+
+    }
+
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Deal deal = listeDeal.get(info.position);
+        switch (item.getItemId()) {
+            case R.id.detailsDealContext:
+                Toast.makeText(getApplicationContext(),"detaisl",Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.addDealToFavorite:
+                String params[] =  {
+                        String.valueOf(deal.getIdDeal()),
+                        String.valueOf(smartDealsApplication.getUsersAuthentifie().get(0).getIdUser())};
+                new AddDealToFavorites().execute(params);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 
     class ChargerListeDeal extends AsyncTask<Void, Void, Void> {
 
@@ -144,11 +193,58 @@ public class ListeDealsActivity extends ListActivity {
                 for (Deal deal : listeItems) {
                     listeDeal.add(deal);
                 }
+            smartDealsApplication.setListeDeal(listeDeal);
+            dealsDataDao.close();
+            return null;
+        }
+
+    }
+
+
+    class ChargerListeFavori extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            liste.setAdapter(new ListeDealAdapter(getBaseContext(), listeDeal));
+            Toast.makeText(getBaseContext(), "Fin chargement liste", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            DealsDataDao dealsDataDao = new DealsDataDao(smartDealsApplication);
+            List<Deal> listeItems = dealsDataDao.getLimitedDeals(smartDealsApplication.getTaillListe());
+
+            List<String> listeFavoris = dealsDataDao.geFavorisDealsByUSer(params[0]);
+
+            for (Deal deal : listeItems) {
+                if(listeFavoris.contains(String.valueOf(deal.getIdDeal()))){
+                    listeDeal.add(deal);
+                }
+            }
             smartDealsApplication.getDbHelper().close();
             smartDealsApplication.setListeDeal(listeDeal);
             return null;
         }
 
+    }
+
+    class AddDealToFavorites extends AsyncTask<String, Void, Void>{
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(getApplicationContext(),"Deal ajouté aux favoris",Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            DealsDataDao dao = new DealsDataDao(smartDealsApplication);
+            dao.ajouterDealToFavoris(params[0], params[1]);
+            dao.close();
+            return null;
+        }
     }
 
 

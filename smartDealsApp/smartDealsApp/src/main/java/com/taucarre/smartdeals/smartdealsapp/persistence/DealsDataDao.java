@@ -121,6 +121,41 @@ public class DealsDataDao {
         }
     }
 
+    public void ajouterDealToFavoris(String idUser, String idDeal){
+        ContentValues values = new ContentValues();
+        values.put(DbHelper.ID_USER, idUser);
+        values.put(DbHelper.ID_DEAL, idDeal);
+
+        Log.d(TAG, "insertOrIgnore on " + values);
+        SQLiteDatabase db = this.dbHelper.getWritableDatabase();
+
+        try {
+            db.insertWithOnConflict(DbHelper.FAVORITE_DEALS, null, values,
+                    SQLiteDatabase.CONFLICT_IGNORE);
+        } finally {
+            db.close();
+        }
+    }
+
+    public List<String> geFavorisDealsByUSer(String idUser){
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        List<String> listeDeals = new ArrayList<String>();
+        Cursor cursor = db.rawQuery("select " + DbHelper.ID_DEAL +
+                        " from " + DbHelper.FAVORITE_DEALS +
+                        " where " +
+                        DbHelper.ID_USER + " = ? " ,
+                        new String[]{idUser});
+
+        if(cursor != null && cursor.moveToNext() && cursor.getCount() > 0 ) {
+            while (!cursor.isAfterLast()) {
+                listeDeals.add(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.ID_DEAL)));
+                cursor.moveToNext();
+            }
+        }
+
+        return listeDeals;
+    }
+
     /**
      * Deletes ALL the data
      */
@@ -183,6 +218,8 @@ public class DealsDataDao {
         //deal.setDateExpirationDeal();
         return  deal;
     }
+
+
 
 
 

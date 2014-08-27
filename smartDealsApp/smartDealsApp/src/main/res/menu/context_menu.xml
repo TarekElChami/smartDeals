@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.taucarre.smartdeals.smartdealsapp.activities.ListeDealsActivity" >
+    <item android:id="@+id/detailsDealContext"
+        android:title="voir details"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/modifierDealContext"
+        android:title="modifier"
+        android:orderInCategory="101"
+        app:showAsAction = "never"
+       />
+    <item
+        android:id="@+id/supprimerDealContext"
+        android:orderInCategory="102"
+        android:title="supprimer deal"
+        app:showAsAction ="never"
+        />
+
+</menu>
