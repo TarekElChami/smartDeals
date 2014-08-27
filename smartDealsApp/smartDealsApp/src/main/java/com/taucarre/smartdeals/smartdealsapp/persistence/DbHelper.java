@@ -88,7 +88,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     DATE_CREATION_DEAL + " int, " +
                     DATE_EXPIRATION_DEAL + " int, " +
                     EXPIRE_DEAL + " int, " +
-                    EVALUATION_DEAL + " int, +" +
+                    EVALUATION_DEAL + " int, " +
                     ID_ADDED_BY + " text ) ";
 
 
@@ -114,9 +114,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private String CREATE_FAVORITE_DEALS_TABLE =
                     " create table if not exists " + FAVORITE_DEALS + " ( " +
-                    ID_USER  + " text , " +
-                    ID_DEAL + " text , "  +
-                    "PRIMARY KEY ( " + ID_USER + ", " + ID_DEAL + ") ) ";
+                    ID_USER  + " text, " +
+                    ID_DEAL +  " text, "  +
+                    " primary key(" + ID_USER + ", " + ID_DEAL + ") ) ";
 
 
 

@@ -105,6 +105,7 @@ public class UpdaterService extends IntentService {
 
             if(listeItems !=null && !listeItems.isEmpty()){
                 DealsDataDao dealsDataDao = new DealsDataDao(smartDealsApplication);
+                dealsDataDao.delete();
                 for(Deal deal : listeItems) {
                     dealsDataDao.insertOrIgnoreDeal(deal);
                 }

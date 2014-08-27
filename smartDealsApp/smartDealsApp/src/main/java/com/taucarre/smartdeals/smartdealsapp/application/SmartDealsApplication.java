@@ -41,12 +41,14 @@ public class SmartDealsApplication extends Application
     private boolean userAthentifie = false;
     private List<User> usersAuthentifie;
 
+    private Deal dealAModifier = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
         this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
         this.prefs.registerOnSharedPreferenceChangeListener(this);
-        taillListe = Integer.valueOf(prefs.getString("taille_liste","10"));
+        taillListe = Integer.valueOf(prefs.getString("taille_liste", "10"));
         frequenceUpdate = Integer.valueOf(prefs.getString("frequence_update", "60"));
         this.dbHelper = new DbHelper(this);
         dataBaseCreated = true;
@@ -136,5 +138,13 @@ public class SmartDealsApplication extends Application
 
     public void setTaillListe(int taillListe) {
         this.taillListe = taillListe;
+    }
+
+    public Deal getDealAModifier() {
+        return dealAModifier;
+    }
+
+    public void setDealAModifier(Deal dealAModifier) {
+        this.dealAModifier = dealAModifier;
     }
 }

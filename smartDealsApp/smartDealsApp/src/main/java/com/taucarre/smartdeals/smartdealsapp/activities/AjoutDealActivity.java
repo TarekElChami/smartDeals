@@ -25,6 +25,7 @@ import com.appspot.smart_deals.smartdeals.model.Deal;
 import com.google.common.base.Strings;
 import com.taucarre.smartdeals.smartdealsapp.R;
 import com.taucarre.smartdeals.smartdealsapp.application.AppConstants;
+import com.taucarre.smartdeals.smartdealsapp.application.SmartDealsApplication;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -44,10 +45,23 @@ public class AjoutDealActivity extends Activity implements AdapterView.OnItemSel
     private String categorieDeal = "";
     private String typeDeal = "";
 
+    private SmartDealsApplication smartDealsApplication;
+    private Long idUserAuthentifie;
+
+    TextView dealName;
+    TextView dealDesc;
+    TextView dealAdresse;
+    TextView dealNomMarchand;
+    TextView dealprice;
+
+    private Deal dealModifie;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajout_deal);
+
+        smartDealsApplication = (SmartDealsApplication) getApplication();
+        idUserAuthentifie = smartDealsApplication.getUsersAuthentifie().get(0).getIdUser();
 
         listeCategorie = (Spinner) findViewById(R.id.categorieDealListe);
 
@@ -69,6 +83,41 @@ public class AjoutDealActivity extends Activity implements AdapterView.OnItemSel
         listeTypeDeal.setOnItemSelectedListener(this);
 
         dealImage = (ImageView) findViewById(R.id.dealPhoto);
+        if(getIntent().getBooleanExtra("modificationDeal",false) && smartDealsApplication.getDealAModifier() != null) {
+            dealName = (TextView) findViewById(R.id.nomDealEditText);
+            dealDesc = (TextView) findViewById(R.id.descDealEditText);
+            dealAdresse = (TextView)findViewById(R.id.adresseDealEditText);
+            dealNomMarchand = (TextView)findViewById(R.id.nomMarchandEditText);
+            dealprice = (TextView)findViewById(R.id.prixDealEditText);
+
+            dealModifie = smartDealsApplication.getDealAModifier();
+            smartDealsApplication.setDealAModifier(null);
+
+            dealName.setText(dealModifie.getNomDeal());
+            dealDesc.setText(dealModifie.getDesciprtionDeal());
+            dealAdresse.setText(dealModifie.getAdresseDeal());
+            dealNomMarchand.setText(dealModifie.getNomMarchand());
+            dealprice.setText(String.valueOf(dealModifie.getPrix()));
+
+            if(!Strings.isNullOrEmpty(dealModifie.getImageDeal())){
+                byte[] byteArrayImageDeal =  Base64.decode(dealModifie.getImageDeal(), Base64.DEFAULT);
+                Bitmap bitmapImageDeal = BitmapFactory.decodeByteArray(byteArrayImageDeal,0,byteArrayImageDeal.length);
+                dealImage.setImageBitmap(bitmapImageDeal);
+                dealImage.setMaxHeight(128);
+                dealImage.setMaxWidth(128);
+                dealImage.setAdjustViewBounds(true);
+            }
+
+            String typeDeal = dealModifie.getTypeDeal();
+            ArrayAdapter typeAdapter = (ArrayAdapter) listeTypeDeal.getAdapter();
+            int position = typeAdapter.getPosition(typeDeal);
+            listeTypeDeal.setSelection(position);
+
+            String categorieDeal = dealModifie.getCategorieDeal();
+            ArrayAdapter categorieAdapter = (ArrayAdapter) listeCategorie.getAdapter();
+            int position2 = categorieAdapter.getPosition(categorieDeal);
+            listeCategorie.setSelection(position2);
+        }
 
     }
 
@@ -255,9 +304,17 @@ public class AjoutDealActivity extends Activity implements AdapterView.OnItemSel
                     deal.setCategorieDeal(categorieDeal);
                     deal.setTypeDeal(typeDeal);
                     deal.setAdresseDeal(dealAdressString);
+                    deal.setAddedBy(idUserAuthentifie);
 
-                    Smartdeals.InsertDeal insertDealCommand = apiServiceHandle.insertDeal(deal);
-                    insertDealCommand.execute();
+                    if(dealModifie != null){
+                        deal.setIdDeal(dealModifie.getIdDeal());
+                        Smartdeals.UpdateDeal updateDealCommand = apiServiceHandle.updateDeal(deal);
+                        updateDealCommand.execute();
+                        dealModifie = null;
+                    }else {
+                        Smartdeals.InsertDeal insertDealCommand = apiServiceHandle.insertDeal(deal);
+                        insertDealCommand.execute();
+                    }
 
                     return deal;
                 } catch (IOException e) {

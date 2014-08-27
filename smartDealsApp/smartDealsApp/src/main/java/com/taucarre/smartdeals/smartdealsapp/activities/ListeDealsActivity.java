@@ -165,9 +165,24 @@ public class ListeDealsActivity extends ListActivity {
                 return true;
             case R.id.addDealToFavorite:
                 String params[] =  {
-                        String.valueOf(deal.getIdDeal()),
-                        String.valueOf(smartDealsApplication.getUsersAuthentifie().get(0).getIdUser())};
+                        String.valueOf(smartDealsApplication.getUsersAuthentifie().get(0).getIdUser()),
+                        String.valueOf(deal.getIdDeal())
+                        };
                 new AddDealToFavorites().execute(params);
+                return true;
+            case R.id.modifierDealContext:
+                if(deal.getAddedBy() != null && deal.getAddedBy().equals(smartDealsApplication.getUsersAuthentifie().get(0).getIdUser())){
+                    smartDealsApplication.setDealAModifier(deal);
+                    Intent intent = new Intent();
+                    String action = "SMARTDEALS_PROPOSITION_DEAL_ACTIVITE";
+                    intent.putExtra("modificationDeal", true);
+                    intent.setAction(action);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(smartDealsApplication,"Modification deal non autorisée", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.voirCommentairesContext:
                 return true;
             default:
                 return super.onContextItemSelected(item);

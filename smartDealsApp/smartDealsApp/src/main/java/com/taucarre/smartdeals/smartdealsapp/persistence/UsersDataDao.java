@@ -45,6 +45,21 @@ public class UsersDataDao {
         }
     }
 
+    public void updateUser(User user){
+        Log.d(TAG, "updateUser");
+        SQLiteDatabase db = this.dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DbHelper.NOM_USER, user.getName());
+        values.put(DbHelper.PASS_USER, user.getPassword());
+        values.put(DbHelper.AVATAR_USER, user.getAvatar());
+        values.put(DbHelper.LOGIN_USER, user.getLogin());
+        values.put(DbHelper.MAIL_USER, user.getMail());
+        db.updateWithOnConflict(DbHelper.USERS_TABLE,
+                values,
+                DbHelper.ID_USER + " = " + user.getIdUser(),
+                null, SQLiteDatabase.CONFLICT_IGNORE);
+    }
+
     public User getUserByMail(String eMail){
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
         /*Cursor cursor = db.query(DbHelper.USERS_TABLE,null, DbHelper.MAIL_USER + " = " + eMail,
@@ -101,6 +116,7 @@ public class UsersDataDao {
        user.setLogin(cursor.getString(cursor.getColumnIndex(DbHelper.LOGIN_USER)));
        user.setNotoriorite(Integer.parseInt(cursor.getString(cursor.getColumnIndex(DbHelper.NOTORIETE_USER))));
        user.setAvatar(cursor.getString(cursor.getColumnIndex(DbHelper.AVATAR_USER)));
+       user.setRoleUtilisateur(cursor.getString(cursor.getColumnIndex(DbHelper.ROLE_USER)));
        int valueBanned = cursor.getInt(cursor.getColumnIndex(DbHelper.BANNED_USER));
         if(valueBanned == 0){
             user.setBanned(false);

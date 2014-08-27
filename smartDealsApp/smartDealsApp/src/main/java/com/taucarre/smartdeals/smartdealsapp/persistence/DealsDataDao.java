@@ -140,16 +140,18 @@ public class DealsDataDao {
     public List<String> geFavorisDealsByUSer(String idUser){
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
         List<String> listeDeals = new ArrayList<String>();
-        Cursor cursor = db.rawQuery("select " + DbHelper.ID_DEAL +
+        Cursor cursor = db.rawQuery("select * " +
                         " from " + DbHelper.FAVORITE_DEALS +
                         " where " +
-                        DbHelper.ID_USER + " = ? " ,
-                        new String[]{idUser});
+                        DbHelper.ID_USER + " =  " + idUser ,
+                        null);
 
-        if(cursor != null && cursor.moveToNext() && cursor.getCount() > 0 ) {
-            while (!cursor.isAfterLast()) {
-                listeDeals.add(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.ID_DEAL)));
-                cursor.moveToNext();
+        if(cursor != null) {
+            if (cursor.moveToNext() && cursor.getCount() > 0) {
+                while (!cursor.isAfterLast()) {
+                    listeDeals.add(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.ID_DEAL)));
+                    cursor.moveToNext();
+                }
             }
         }
 
@@ -189,6 +191,7 @@ public class DealsDataDao {
         values.put(DbHelper.LATITUDE_DEAL, deal.getLatitudeDeal());
         values.put(DbHelper.LONGETUDE_DEAL, deal.getLongitudeDeal());
         values.put(DbHelper.EVALUATION_DEAL, deal.getScoreDeal());
+        values.put(DbHelper.ID_ADDED_BY, deal.getAddedBy());
 
         return values;
     }
@@ -214,6 +217,9 @@ public class DealsDataDao {
         deal.setAdresseDeal(cursor.getString(cursor.getColumnIndex(DbHelper.ADRESSE_DEAL)));
         deal.setLatitudeDeal(cursor.getString(cursor.getColumnIndex(DbHelper.LATITUDE_DEAL)));
         deal.setLongitudeDeal(cursor.getString(cursor.getColumnIndex(DbHelper.LONGETUDE_DEAL)));
+        if(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.ID_ADDED_BY)) != null) {
+            deal.setAddedBy(Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.ID_ADDED_BY))));
+        }
         //deal.setDateDeCreationDeal();
         //deal.setDateExpirationDeal();
         return  deal;

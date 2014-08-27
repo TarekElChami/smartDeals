@@ -39,6 +39,12 @@ public class ConfigurerProfilActivity extends ActionBarActivity {
 
     private ImageView avatarImage;
 
+    private TextView userName;
+    private TextView userLogin;
+    private TextView userPassword;
+    private TextView userMail;
+    private Long idUserAuthentife;
+
     private SmartDealsApplication smartDealsApplication;
 
     @Override
@@ -52,6 +58,32 @@ public class ConfigurerProfilActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(),"Veuillez vous enregistrer", Toast.LENGTH_LONG).show();
         }
         avatarImage = (ImageView) findViewById(R.id.userAvatar);
+
+        if(smartDealsApplication.isUserAthentifie()){
+            userName = (TextView) findViewById(R.id.userName);
+            userLogin = (TextView) findViewById(R.id.userLogin);
+            userPassword = (TextView) findViewById(R.id.userPassword);
+            userMail = (TextView) findViewById(R.id.userMail);
+
+            User user = smartDealsApplication.getUsersAuthentifie().get(0);
+
+            userName.setText(user.getName());
+            userLogin.setText(user.getLogin());
+            userPassword.setText(user.getPassword());
+            userMail.setText(user.getMail());
+            idUserAuthentife = user.getIdUser();
+
+            if(!Strings.isNullOrEmpty(user.getAvatar())){
+                byte[] byteArrayImageDeal =  Base64.decode(user.getAvatar(), Base64.DEFAULT);
+                Bitmap bitmapImageDeal = BitmapFactory.decodeByteArray(byteArrayImageDeal,0,byteArrayImageDeal.length);
+                avatarImage.setImageBitmap(bitmapImageDeal);
+                avatarImage.setMaxHeight(128);
+                avatarImage.setMaxWidth(128);
+                avatarImage.setAdjustViewBounds(true);
+            }
+
+        }
+
     }
 
 
@@ -184,6 +216,8 @@ public class ConfigurerProfilActivity extends ActionBarActivity {
             @Override
             protected User doInBackground(Void... params) {
 
+                UsersDataDao usersDataDao = new UsersDataDao(smartDealsApplication);
+
                 User user = new User();
                 user.setBanned(false);
                 user.setLogin(userLoginString);
@@ -194,12 +228,18 @@ public class ConfigurerProfilActivity extends ActionBarActivity {
                 user.setRoleUtilisateur("INSIDER");
                 user.setAvatar(encodedAvatarImage);
 
-                UUID id = UUID.randomUUID();
-                user.setIdUser(id.getMostSignificantBits());
+                if(smartDealsApplication.isUserAthentifie()){
+                    user.setIdUser(idUserAuthentife);
+                    usersDataDao.updateUser(user);
+                }else {
+                    UUID id = UUID.randomUUID();
+                    user.setIdUser(id.getMostSignificantBits());
+                    usersDataDao.insertOrIgnoreUser(user);
+                }
 
-                UsersDataDao usersDataDao = new UsersDataDao(smartDealsApplication);
-                usersDataDao.insertOrIgnoreUser(user);
 
+
+                usersDataDao.close();
                 return user;
 
             }
