@@ -18,23 +18,25 @@ public class CommentPersistenceServiceImpl implements CommentPersistenceService 
 
 	
 	@Override
-	public void sauvegarderComment(Comment comment) {
+	public Comment sauvegarderComment(Comment comment) {
 		// TODO Auto-generated method stub
-
 		
 		Key<Comment> result =  oby().save().entity(comment).now();
 		if(result != null){
-			logger.info("Sauvegarde commentaire pour le deal " + comment.getParent() + " : " +  result.toString());
+			logger.info("Sauvegarde commentaire pour le deal " + comment.getIdDeal() + " : " +  result.toString());
+			return comment;
 		}else{
-			logger.info("Echec Sauvegarde commentaire pour le deal " + comment.getParent());
+			logger.info("Echec Sauvegarde commentaire pour le deal " + comment.getIdDeal());
+			return null;
 		}
 	
 	}
 	
 	
-	public void modifierComment(Comment comment) {
+	public Comment modifierComment(Comment comment) {
 		oby().save().entity(comment).now();
-		logger.info("Modification du commentaire écris par " + comment.getIdUser()); 
+		logger.info("Modification du commentaire écris par " + comment.getNomUser()); 
+		return comment;
 		
 	}
 	
@@ -47,11 +49,10 @@ public class CommentPersistenceServiceImpl implements CommentPersistenceService 
 	
 	
 	//Récupérer les commentaires d'un Deal Passer en paramètre
-	 	public List<Comment> GetCommentsOfDeal(Deal deal) {
+	 	public List<Comment> getCommentsByDeal(Long idDeal) {
 
-		List<Comment> comments = oby().load().type(Comment.class).ancestor(deal).order("-dateDeCreation").list();
+		List<Comment> comments = oby().load().type(Comment.class).filter("idDeal", idDeal).list();
 		
-	 
 		return comments;
 	}
 	 	

@@ -33,6 +33,7 @@ public class Deal implements Serializable {
 	private String latitudeDeal;
 	private String longitudeDeal;
 	private Integer scoreDeal;
+	private Long addedBy;
 	
 //	private List<Commentaire> listeCommentaires;
 	
@@ -168,6 +169,16 @@ public class Deal implements Serializable {
 	public void setCategorieDeal(CategorieDeal categorieDeal) {
 		this.categorieDeal = categorieDeal;
 	}
+
+	public Long getAddedBy() {
+		return addedBy;
+	}
+
+	public void setAddedBy(Long addedBy) {
+		this.addedBy = addedBy;
+	}
+	
+	
 	
 
 }

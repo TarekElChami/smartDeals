@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.taucarre.smartdeals.business.CommentBusinessService;
 import org.taucarre.smartdeals.entite.comment.Comment;
-import org.taucarre.smartdeals.entite.deal.Deal;
 import org.taucarre.smartdeals.persistence.CommentPersistenceService;
 import org.taucarre.smartdeals.persistence.datastore.CommentPersistenceServiceImpl;
 
@@ -16,21 +15,20 @@ public class CommentBusinessServiceImpl implements CommentBusinessService {
 	public CommentBusinessServiceImpl() {
 		commentPersistenceService = new CommentPersistenceServiceImpl();	
 	}
-	
-	
+
 	
 	@Override
-	public void ajouterCommentaire(Comment comment) {
+	public Comment ajouterCommentaire(Comment comment) {
 		// TODO Auto-generated method stub
 	comment.setDateDeCreation(new Date());
-	commentPersistenceService.sauvegarderComment(comment);
+	return commentPersistenceService.sauvegarderComment(comment);
 	}
 
 	@Override
-	public void mettreAjourCommentaire(Comment comment) {
+	public Comment mettreAjourCommentaire(Comment comment) {
 		// TODO Auto-generated method stub
    comment.setDateDeModification(new Date());
-   commentPersistenceService.modifierComment(comment);
+   return commentPersistenceService.modifierComment(comment);
 	}
 
 	@Override
@@ -39,18 +37,11 @@ public class CommentBusinessServiceImpl implements CommentBusinessService {
 		commentPersistenceService.supprimerComment(comment);
 	}
 
-	@Override
-	public void supprimerCommentaireByInfos(Long dealId, Long UserId,
-			Date DateDeCreation) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
-	public List<Comment> recupererTousLesCommentaires(Deal deal) {
-		// TODO Auto-generated method stub
-		
-		return commentPersistenceService.GetCommentsOfDeal(deal);
+	public List<Comment> recupererTousLesCommentaires(Long idDeal) {
+
+		return commentPersistenceService.getCommentsByDeal(idDeal);
 	}
 
 }

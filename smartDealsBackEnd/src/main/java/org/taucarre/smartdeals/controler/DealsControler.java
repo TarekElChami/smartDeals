@@ -30,12 +30,12 @@ public class DealsControler {
 	}
 	
 	
-	@ApiMethod(name="getDealByName",httpMethod= "get")
+	@ApiMethod(name="getDealByName",httpMethod="get")
 	public Deal getDealByName(@Named("nom") String nameDeal){
 		return dealBusinessService.consulterDeal(nameDeal);
 	}
 	
-	@ApiMethod(name="insertDeal", httpMethod= "post")
+	@ApiMethod(name="insertDeal", httpMethod="post")
 	public void insertDeal(Deal deal){
 		dealBusinessService.ajouterDeal(deal);
 	}
