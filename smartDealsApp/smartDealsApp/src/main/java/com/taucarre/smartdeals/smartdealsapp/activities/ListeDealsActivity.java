@@ -160,9 +160,6 @@ public class ListeDealsActivity extends ListActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         Deal deal = listeDeal.get(info.position);
         switch (item.getItemId()) {
-            case R.id.detailsDealContext:
-                Toast.makeText(getApplicationContext(),"detaisl",Toast.LENGTH_LONG).show();
-                return true;
             case R.id.addDealToFavorite:
                 String params[] =  {
                         String.valueOf(smartDealsApplication.getUsersAuthentifie().get(0).getIdUser()),
@@ -183,6 +180,10 @@ public class ListeDealsActivity extends ListActivity {
                 }
                 return true;
             case R.id.voirCommentairesContext:
+                Intent intent = new Intent();
+                intent.putExtra("idDeal", deal.getIdDeal());
+                intent.setClass(smartDealsApplication,ListeCommentairesActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onContextItemSelected(item);

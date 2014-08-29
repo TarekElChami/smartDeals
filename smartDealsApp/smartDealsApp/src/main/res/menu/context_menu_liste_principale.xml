@@ -2,10 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.taucarre.smartdeals.smartdealsapp.activities.ListeDealsActivity" >
-    <item android:id="@+id/detailsDealContext"
-        android:title="Voir details"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
     <item android:id="@+id/addDealToFavorite"
         android:title="Ajouter aux favoris"
         android:orderInCategory="101"

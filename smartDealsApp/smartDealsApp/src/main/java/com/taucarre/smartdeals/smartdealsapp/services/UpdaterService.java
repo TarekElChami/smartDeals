@@ -6,11 +6,14 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.appspot.smart_deals.smartdeals.Smartdeals;
+import com.appspot.smart_deals.smartdeals.model.Comment;
+import com.appspot.smart_deals.smartdeals.model.CommentCollection;
 import com.appspot.smart_deals.smartdeals.model.Deal;
 import com.appspot.smart_deals.smartdeals.model.DealCollection;
 import com.appspot.smart_deals.smartdeals.model.User;
 import com.taucarre.smartdeals.smartdealsapp.application.AppConstants;
 import com.taucarre.smartdeals.smartdealsapp.application.SmartDealsApplication;
+import com.taucarre.smartdeals.smartdealsapp.persistence.CommentairesDataDao;
 import com.taucarre.smartdeals.smartdealsapp.persistence.DbHelper;
 import com.taucarre.smartdeals.smartdealsapp.persistence.DealsDataDao;
 
@@ -31,10 +34,10 @@ public class UpdaterService extends IntentService {
 
     private static final String ACTION_UPDATE = "smartdeals.action.update";
     private static final String ACTION_SYNCHRONIZE = "smartdeals.action.synchronize";
+    private static final String ACTION_UPDATE_COMMENTAIRES = "smartdeals.action.updatecommentaire";
 
-    // TODO: Rename parameters
     private static final String EXTRA_PARAM1 = "smartdeals.synchronize.user";
-    private static final String EXTRA_PARAM2 = "com.taucarre.smartdeals.smartdealsapp.services.extra.PARAM2";
+    private static final String EXTRA_PARAM2 = "smartdeals.update.iddeal";
 
     @Override
     public void onCreate() {
@@ -80,12 +83,14 @@ public class UpdaterService extends IntentService {
             final String action = intent.getAction();
             if (ACTION_UPDATE.equals(action)) {
                 final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionUpdate(param1, param2);
+                handleActionUpdate(param1, null);
             } else if (ACTION_SYNCHRONIZE.equals(action)) {
                 final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionSynchronize(param1, param2);
+                handleActionSynchronize(param1, null);
+            }else if(ACTION_UPDATE_COMMENTAIRES.equals(action)){
+                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
+                final Long param2 = intent.getLongExtra(EXTRA_PARAM2, new Long(0));
+                handleActionUpdateCommentaires(param1, param2);
             }
         }
     }
@@ -137,6 +142,36 @@ public class UpdaterService extends IntentService {
                 e.printStackTrace();
             }
         }
+
+    private void handleActionUpdateCommentaires(String param1, Long param2) {
+        Smartdeals apiServiceHandle = AppConstants.getApiServiceHandle();
+
+        try {
+            Smartdeals.ListComments listComments = apiServiceHandle.listComments(param2);
+            CommentCollection collection = listComments.execute();
+
+
+            List<Comment> listeItems = collection.getItems();
+
+            if(listeItems !=null && !listeItems.isEmpty()){
+                CommentairesDataDao dao = new CommentairesDataDao(smartDealsApplication);
+                for(Comment c : listeItems) {
+                    dao.insertOrIgnoreCommmentaire(c);
+                }
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        this.stopSelf();
+
+    }
+
+
+
+
 
 
     class DbWorker extends Thread{

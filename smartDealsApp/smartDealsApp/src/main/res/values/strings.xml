@@ -60,11 +60,11 @@
     <string name="userAvatar">User Avatar</string>
     <string name="configurerProfilMenu">Configurer Profil</string>
 
-
     <!-- Parametrer application Strings -->
     <string name="tailleListe">Taille Liste Deals</string>
     <string name="frequenceUpdate">Fréquence Update Deals</string>
     <string name="title_activity_parametrer_application">Paramètres</string>
     <string name="updateDealsMenu">Mis à jour liste Deals</string>
+    <string name="title_activity_liste_commentaires">Commentaires</string>
 
 </resources>

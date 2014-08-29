@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical" android:layout_height="fill_parent"
+android:layout_width="fill_parent" >
+
+
+<TableRow android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
+
+<EditText android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/texteCommentaireInput"
+          android:layout_gravity="left"
+          android:hint="Ajouter votre commentaire ici" />
+
+<Button android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="right"
+    android:paddingLeft="20sp"
+    android:text="+"
+    android:textColor="#fff"
+    android:onClick="onClickAjouterCommentaire"
+    android:id="@+id/buttonAjouterCommentaire"/>
+    </TableRow>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dip"
+        android:background="#000000"/>
+
+
+<ListView android:layout_height="fill_parent"
+    android:layout_width="fill_parent" android:id="@+id/listCommentaires"
+   />
+
+
+</LinearLayout>

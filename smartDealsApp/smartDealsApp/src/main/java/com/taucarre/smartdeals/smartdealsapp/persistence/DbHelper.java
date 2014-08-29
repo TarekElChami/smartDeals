@@ -60,10 +60,12 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     /**** COMMENTAIRES TABLE columns *****/
-    public static final String ID_COMMENTAIRE = "id_commentaire";
+    public static final String ID_COMMENTAIRE = "_id";
     public static final String ID_USER_COMMENTAIRE = "id_user_commentaire";
+    public static final String NOM_USER_COMMENTAIRE = "nom_user_commentaire";
     public static final String ID_DEAL_COMMENTAIRE = "id_deal_commentaire";
     public static final String CONTENU_COMMENTAIRE = "contenu_commentaire";
+    public static final String CREE_A_COMMENTAIRE = "commentaire_cree_a";
 
     /**** MY_FAVORITE_DEALS TABLE columns ****/
 
@@ -108,8 +110,10 @@ public class DbHelper extends SQLiteOpenHelper {
     private String CREATE_COMMENTAIRES_TABLE =
                     " create table if not exists " + COMMENTAIRES_TABLE + " ( " +
                     ID_COMMENTAIRE  + " text primary key, " +
-                    ID_USER_COMMENTAIRE + " int, " +
-                    ID_DEAL_COMMENTAIRE + " int, " +
+                    ID_USER_COMMENTAIRE + " text, " +
+                    ID_DEAL_COMMENTAIRE + " text, " +
+                    NOM_USER_COMMENTAIRE + " text," +
+                    CREE_A_COMMENTAIRE  +  " int, " +
                     CONTENU_COMMENTAIRE + " text ) ";
 
     private String CREATE_FAVORITE_DEALS_TABLE =
