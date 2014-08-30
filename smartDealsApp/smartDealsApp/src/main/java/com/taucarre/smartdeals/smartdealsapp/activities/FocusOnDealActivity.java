@@ -166,9 +166,8 @@ public class FocusOnDealActivity extends FragmentActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        dealsDataDao.close();
         smartDealsApplication.getDbHelper().close();
-        map.clear();
+       // map.clear();
     }
 
     @Override

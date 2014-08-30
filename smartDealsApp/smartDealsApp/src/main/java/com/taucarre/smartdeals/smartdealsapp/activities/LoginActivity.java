@@ -39,10 +39,9 @@ import com.taucarre.smartdeals.smartdealsapp.persistence.UsersDataDao;
  * A login screen that offers login via email/password.
 
  */
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>{
+public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor>{
 
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private SmartDealsApplication smartDealsApplication;
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.

@@ -158,6 +158,21 @@ public class DealsDataDao {
         return listeDeals;
     }
 
+    public int getDealsNumber(){
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select count(*) from deals ", null);
+        int count = 0;
+        if(null != cursor)
+            if(cursor.getCount() > 0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+        cursor.close();
+
+    db.close();
+    return count;
+    }
+
     /**
      * Deletes ALL the data
      */

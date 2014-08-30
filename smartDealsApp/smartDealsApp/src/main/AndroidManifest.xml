@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name="com.taucarre.smartdeals.smartdealsapp.application.SmartDealsApplication"
@@ -100,7 +101,6 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </service>
 
         <activity
@@ -127,11 +127,40 @@
             android:name="com.taucarre.smartdeals.smartdealsapp.activities.ListeCommentairesActivity"
             android:label="@string/title_activity_liste_commentaires" >
         </activity>
+
+        <receiver android:name="com.taucarre.smartdeals.smartdealsapp.services.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.taucarre.smartdeals.smartdealsapp.services.NetworkReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
     </application>
+
+    <uses-permission android:name="com.taucarre.smartdeals.SEND_DEALS_NOTIFICATIONS" />
+    <uses-permission android:name="com.taucarre.smartdeals.RECEIVE_DEALS_NOTIFICATIONS" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <permission android:name="com.taucarre.smartdeals.SEND_DEALS_NOTIFICATIONS"
+        android:label="@string/send_deals_notifications_permission_label"
+        android:description="@string/send_deals_notifications_permission_description"
+        android:permissionGroup="android.permission-group.PERSONAL_INFO"
+        android:protectionLevel="normal" />
+
+    <permission android:name="com.taucarre.smartdeals.RECEIVE_DEALS_NOTIFICATIONS"
+        android:label="@string/receive_deals_notifications_permission_label"
+        android:description="@string/receive_deals_notifications_permission_description"
+        android:permissionGroup="android.permission-group.PERSONAL_INFO"
+        android:protectionLevel="normal" />
+
 
 </manifest>

@@ -1,7 +1,9 @@
 package com.taucarre.smartdeals.smartdealsapp.activities;
 
-import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,12 +25,15 @@ import com.taucarre.smartdeals.smartdealsapp.application.AppConstants;
 import com.taucarre.smartdeals.smartdealsapp.application.SmartDealsApplication;
 import com.taucarre.smartdeals.smartdealsapp.persistence.CommentairesDataDao;
 import com.taucarre.smartdeals.smartdealsapp.persistence.DbHelper;
+import com.taucarre.smartdeals.smartdealsapp.services.UpdaterService;
 
 import java.io.IOException;
 
-public class ListeCommentairesActivity extends Activity {
+public class ListeCommentairesActivity extends BaseActivity {
 
     private static final String TAG = ListeCommentairesActivity.class.getSimpleName();
+
+    private static final String SEND_DEALS_NOTIFICATION =  "com.taucarre.smartdeals.SEND_DEALS_NOTIFICATIONS";
 
     Cursor cursor;
     ListView listComentaires;
@@ -36,9 +41,11 @@ public class ListeCommentairesActivity extends Activity {
     static final String[] FROM = {DbHelper.CREE_A_COMMENTAIRE, DbHelper.NOM_USER_COMMENTAIRE,
             DbHelper.CONTENU_COMMENTAIRE};
     static final int[] TO = {R.id.commentaireAjouteA, R.id.nomUserCommentaire, R.id.texteCommentaire};
-    SmartDealsApplication smartDealsApplication;
     Long idDeal;
     EditText commentaitreText;
+    private CommentairesReceiver receiver;
+    private IntentFilter filter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +54,23 @@ public class ListeCommentairesActivity extends Activity {
         smartDealsApplication = (SmartDealsApplication) getApplication();
         idDeal = getIntent().getLongExtra("idDeal", new Long(0));
 
-        Intent intent = new Intent("smartdeals.action.updatecommentaire");
-        intent.putExtra("smartdeals.update.iddeal", idDeal);
-        startService(intent);
+         Intent intent = new Intent("smartdeals.action.updatecommentaire");
+         intent.putExtra("smartdeals.update.iddeal", idDeal);
+         startService(intent);
 
         listComentaires = (ListView) findViewById(R.id.listCommentaires);
+
+        receiver = new CommentairesReceiver();
+        filter = new IntentFilter(UpdaterService.NEW_COMMENTS_INTENT);
+
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         this.setupList();
+        registerReceiver(receiver,filter, SEND_DEALS_NOTIFICATION, null);
 
     }
 
@@ -67,8 +78,9 @@ public class ListeCommentairesActivity extends Activity {
     protected void onPause() {
         super.onPause();
 
-    }
+        unregisterReceiver(receiver);
 
+    }
 
     private void setupList() {
         CommentairesDataDao dao = new CommentairesDataDao(smartDealsApplication);
@@ -146,7 +158,13 @@ public class ListeCommentairesActivity extends Activity {
         sendCommentaire.execute((Void) null);
     }
 
-
- }
+    class CommentairesReceiver  extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            setupList();
+            Log.d(TAG, "receiving new comments");
+        }
+    }
+}
 
 

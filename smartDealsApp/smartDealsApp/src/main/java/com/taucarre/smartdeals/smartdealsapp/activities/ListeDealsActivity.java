@@ -1,9 +1,13 @@
 package com.taucarre.smartdeals.smartdealsapp.activities;
 
 import android.app.ListActivity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +23,7 @@ import com.taucarre.smartdeals.smartdealsapp.application.SmartDealsApplication;
 import com.taucarre.smartdeals.smartdealsapp.modele.ListeDeal;
 import com.taucarre.smartdeals.smartdealsapp.R;
 import com.taucarre.smartdeals.smartdealsapp.persistence.DealsDataDao;
+import com.taucarre.smartdeals.smartdealsapp.services.UpdaterService;
 
 import java.util.List;
 
@@ -26,10 +31,14 @@ import java.util.List;
 public class ListeDealsActivity extends ListActivity {
 
     private static final String TAG = ListeDealsActivity.class.getSimpleName();
+    private static final String SEND_DEALS_NOTIFICATION =  "com.taucarre.smartdeals.SEND_DEALS_NOTIFICATIONS";
+
     ListView liste;
     ListeDeal listeDeal;
     SmartDealsApplication smartDealsApplication;
     int tailleListeAffiche = 10;
+    private DealsReceiver receiver;
+    private IntentFilter filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +51,18 @@ public class ListeDealsActivity extends ListActivity {
         Intent intent2 = new Intent("smartdeals.action.synchronize");
         startService(intent2);
 
-        Intent intent = new Intent("smartdeals.action.update");
-        startService(intent);
+        //Intent intent = new Intent("smartdeals.action.update");
+        //startService(intent);
 
         liste = (ListView) findViewById(android.R.id.list);
         liste.requestFocus();
         registerForContextMenu(liste);
         listeDeal = new ListeDeal();
 
+        receiver = new DealsReceiver();
+        filter = new IntentFilter(UpdaterService.NEW_DEALS_INTENT);
+
+        /*
         boolean showFavori = getIntent().getBooleanExtra("show_favoris", false);
         if(showFavori){
             String params[] =  {
@@ -58,7 +71,7 @@ public class ListeDealsActivity extends ListActivity {
         }else{
             new ChargerListeDeal().execute();
             }
-
+            */
 
     }
 
@@ -91,14 +104,30 @@ public class ListeDealsActivity extends ListActivity {
         return true;
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.setupList();
+        registerReceiver(receiver,filter, SEND_DEALS_NOTIFICATION, null);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
         smartDealsApplication.getDbHelper().close();
+        /*
         Intent intent2 = new Intent("smartdeals.action.synchronize");
         Intent intent = new Intent("smartdeals.action.update");
         stopService(intent2);
         stopService(intent);
+        */
     }
 
     @Override
@@ -285,6 +314,25 @@ public class ListeDealsActivity extends ListActivity {
         intent.setClass(this, FocusOnDealActivity.class);
         startActivity(intent);
 
+    }
+
+    private void setupList() {
+        boolean showFavori = getIntent().getBooleanExtra("show_favoris", false);
+        if(showFavori){
+            String params[] =  {
+                    String.valueOf(smartDealsApplication.getUsersAuthentifie().get(0).getIdUser())};
+            new ChargerListeFavori().execute(params);
+        }else{
+            new ChargerListeDeal().execute();
+        }
+    }
+
+    class DealsReceiver  extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            setupList();
+            Log.d(TAG, "receiving new deals");
+        }
     }
 
 }

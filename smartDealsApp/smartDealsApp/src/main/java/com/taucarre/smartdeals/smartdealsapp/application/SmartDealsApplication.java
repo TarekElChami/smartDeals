@@ -27,7 +27,8 @@ public class SmartDealsApplication extends Application
 
     private static final String TAG = SmartDealsApplication.class.getSimpleName();
     private static final int TAILLE_LISTE_PAR_DEFAULT = 10;
-    private static final int FREQUENCE_UPDATE_PAR_DEFAULT = 30 * 60 * 1000;
+    public static final long INTERVAL_NEVER = 0;
+    private boolean serviceRunning;
 
     private ListeDeal listeDeal;
 
@@ -36,7 +37,6 @@ public class SmartDealsApplication extends Application
     boolean updaterServiceRunning;
     boolean dataBaseCreated = false;
     int taillListe;
-    int frequenceUpdate;
 
     private boolean userAthentifie = false;
     private List<User> usersAuthentifie;
@@ -49,7 +49,6 @@ public class SmartDealsApplication extends Application
         this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
         this.prefs.registerOnSharedPreferenceChangeListener(this);
         taillListe = Integer.valueOf(prefs.getString("taille_liste", "10"));
-        frequenceUpdate = Integer.valueOf(prefs.getString("frequence_update", "60"));
         this.dbHelper = new DbHelper(this);
         dataBaseCreated = true;
         Log.i(TAG, "Smart Deals application started");
@@ -70,7 +69,6 @@ public class SmartDealsApplication extends Application
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         taillListe = Integer.parseInt(this.prefs.getString("taille_liste",String.valueOf(TAILLE_LISTE_PAR_DEFAULT)));
-        frequenceUpdate = Integer.parseInt(this.prefs.getString("frequence_update",String.valueOf(FREQUENCE_UPDATE_PAR_DEFAULT)));
 
     }
 
@@ -124,14 +122,6 @@ public class SmartDealsApplication extends Application
         this.usersAuthentifie = usersAuthentifie;
     }
 
-    public int getFrequenceUpdate() {
-        return frequenceUpdate;
-    }
-
-    public void setFrequenceUpdate(int frequenceUpdate) {
-        this.frequenceUpdate = frequenceUpdate;
-    }
-
     public int getTaillListe() {
         return taillListe;
     }
@@ -147,4 +137,18 @@ public class SmartDealsApplication extends Application
     public void setDealAModifier(Deal dealAModifier) {
         this.dealAModifier = dealAModifier;
     }
+
+
+    public long getInterval() {
+        return Long.parseLong(prefs.getString("interval", "0"));
+    }
+
+    public boolean isServiceRunning() {
+        return serviceRunning;
+    }
+
+    public void setServiceRunning(boolean serviceRunning) {
+        this.serviceRunning = serviceRunning;
+    }
+
 }

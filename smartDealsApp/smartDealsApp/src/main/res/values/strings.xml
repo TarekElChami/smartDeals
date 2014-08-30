@@ -67,4 +67,40 @@
     <string name="updateDealsMenu">Mis à jour liste Deals</string>
     <string name="title_activity_liste_commentaires">Commentaires</string>
 
+
+    <!-- Valeurs pour la fréquence d'update du service -->
+
+    <string name="resumeFrequeceUpdate">Quelle doit etre la fréquence possible d\'update ?</string>
+    <string name="titreFrequenceUpdate">Fréquence d\'update</string>
+
+    <string name="msgNotificationTitle">New Deals Updates</string>
+    <string name="msgNotificationMessage">Vous avez %d deals en plus</string>
+
+
+    <string-array name="interval">
+        <item>JAMAIS</item>
+        <item>15 minutes</item>
+        <item>Demi heure</item>
+        <item>Une heure</item>
+        <item>Demi journée</item>
+        <item>Une journée</item>
+    </string-array>
+
+    <string-array name="intervalValues">
+        <item>0</item>
+        <item>900000</item>
+        <item>1800000</item>
+        <item>3600000</item>
+        <item>43200000</item>
+        <item>86400000</item>
+    </string-array>
+
+
+  <string name="send_deals_notifications_permission_label">Sends Deals Notifications</string>
+  <string name="send_deals_notifications_permission_description">Allow this application to send deals
+    notifications to other applications</string>
+  <string name="receive_deals_notifications_permission_label">Receive Deals Notifications</string>
+  <string name="receive_deals_notifications_permission_description">Allow this application to receive deals
+    notifications from other applications</string>
+
 </resources>

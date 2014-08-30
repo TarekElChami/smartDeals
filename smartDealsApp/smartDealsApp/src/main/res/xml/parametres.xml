@@ -6,9 +6,8 @@
         android:inputType="number"
         android:numeric="integer"
         android:key="taille_liste"/>
-    <EditTextPreference
-        android:title= "@string/frequenceUpdate"
-        android:inputType="number"
-        android:numeric="integer"
-        android:key="frequence_update"/>
+    <ListPreference android:entryValues="@array/intervalValues"
+        android:summary="@string/resumeFrequeceUpdate" android:title="@string/titreFrequenceUpdate"
+        android:entries="@array/interval" android:key="interval"></ListPreference>
+
 </PreferenceScreen>

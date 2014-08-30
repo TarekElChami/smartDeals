@@ -1,6 +1,5 @@
 package com.taucarre.smartdeals.smartdealsapp.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,8 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,7 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
-public class AjoutDealActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class AjoutDealActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -45,7 +42,6 @@ public class AjoutDealActivity extends Activity implements AdapterView.OnItemSel
     private String categorieDeal = "";
     private String typeDeal = "";
 
-    private SmartDealsApplication smartDealsApplication;
     private Long idUserAuthentifie;
 
     TextView dealName;
@@ -122,40 +118,10 @@ public class AjoutDealActivity extends Activity implements AdapterView.OnItemSel
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.ajout_deal, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-      /*  switch(view.getId()){
-        //    case R.id.categorieDealListe :
-          //      categorieDeal = (String) adapterView.getItemAtPosition(i);
-                break;
-            case R.id.typeDealSpinner :
-                typeDeal = (String) adapterView.getItemAtPosition(i);
-                break;
-            default:
-                break;
-        }
-*/
     }
 
     @Override
