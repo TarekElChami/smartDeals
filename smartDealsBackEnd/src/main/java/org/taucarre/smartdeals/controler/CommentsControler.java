@@ -52,6 +52,11 @@ public class CommentsControler {
 		return commentBusinessService.recupererTousLesCommentaires(idDeal);
 	}
 	
+	@ApiMethod(name="fetchComments", path="fetchCommments" )
+	public List<Comment> fetchAllComments(){
+		return commentBusinessService.fetchAllDeals();
+	}
+	
 	
 
 };

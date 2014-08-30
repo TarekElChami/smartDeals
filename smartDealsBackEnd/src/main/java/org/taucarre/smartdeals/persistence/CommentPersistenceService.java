@@ -13,6 +13,7 @@ public Comment sauvegarderComment(Comment comment);
 public void supprimerComment(Comment comment);
 public Comment modifierComment(Comment comment);
 public List<Comment> getCommentsByDeal(Long idDeal);
+public List<Comment> fetchAllComments();
 
 	
 }

@@ -44,4 +44,13 @@ public class CommentBusinessServiceImpl implements CommentBusinessService {
 		return commentPersistenceService.getCommentsByDeal(idDeal);
 	}
 
+
+	@Override
+	public List<Comment> fetchAllDeals() {
+		// TODO Auto-generated method stub
+		return commentPersistenceService.fetchAllComments();
+	}
+	
+	
+
 }

@@ -55,6 +55,13 @@ public class CommentPersistenceServiceImpl implements CommentPersistenceService 
 		
 		return comments;
 	}
+
+
+		@Override
+		public List<Comment> fetchAllComments() {
+			List<Comment> comments = oby().load().type(Comment.class).list();
+			return comments;
+		}
 	 	
 	 	
 	
